@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Playopolis</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="place_holder">place holder</string>
+    <string name="playopolis_logo">playopolis logo</string>
+    <string name="avatar">Avatar</string>
+    <string name="genres">Genres</string>
+    <string name="choose_file">Choose file</string>
+    <string name="nextpage">continue</string>
+    <string name="games_you_ve_played">Games you\'ve played</string>
+    <string name="set_your_profile">Set your profile</string>
+</resources>
