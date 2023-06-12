@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         backToStartImageView = (ImageView) findViewById(R.id.back_btn);
         login_btn = (Button) findViewById(R.id.login_btn);
         email = (EditText) findViewById(R.id.edit_entermail);
+        password = (EditText) findViewById(R.id.edit_enterpassword);
 
         backToStartImageView.setOnClickListener(new View.OnClickListener() {
             @Override
