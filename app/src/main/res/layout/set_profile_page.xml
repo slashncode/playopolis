@@ -84,6 +84,7 @@
         android:layout_height="wrap_content"
         android:text="@string/nextpage"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/button_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
