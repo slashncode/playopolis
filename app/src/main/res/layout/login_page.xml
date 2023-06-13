@@ -15,8 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
         android:text="@string/login"
+        android:textColor="#2A8E9D"
+        android:textFontWeight="500"
         android:textSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,15 +66,16 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_entermail" />
 
     <Button
-        android:id="@+id/login_btn"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="192dp"
         android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/button_bg"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_enterpassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_enterpassword"
+        app:layout_constraintVertical_bias="0.143" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
