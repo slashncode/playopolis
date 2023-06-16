@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity{
             }
         });
 
-        register_btn = (Button) findViewById(R.id.login_btn);
+        register_btn = (Button) findViewById(R.id.register_btn);
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     private void openMainActivity() {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, RecommendationActivity.MainActivity.class);
             startActivity(intent);
     }
 }
