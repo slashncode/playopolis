@@ -12,10 +12,11 @@
     <string name="choose_file">Choose file</string>
     <string name="nextpage">continue</string>
     <string name="games_you_ve_played">Games you\'ve played</string>
-    <string name="set_your_profile">Set your profile</string>
+    <string name="set_up_your_profile">Set up                   your profile</string>
     <string name="enter_password">Enter password</string>
     <string name="enter_e_mail">Enter E-Mail</string>
     <string name="repeat_password">Repeat password</string>
     <string name="enter_username">Enter username</string>
     <string name="username">Username</string>
+    <string name="describe_yourself">Describe yourself!</string>
 </resources>

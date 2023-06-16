@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
 
-        backToStartImageView = (ImageView) findViewById(R.id.back_btn);
+        backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
         backToStartImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity{
             }
         });
 
-        register_btn = (Button) findViewById(R.id.register_btn);
+        register_btn = (Button) findViewById(R.id.login_btn);
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     private void openMainActivity() {
-            Intent intent = new Intent(this, RecommendationActivity.MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
     }
 }

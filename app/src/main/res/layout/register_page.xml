@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/back_btn"
+        android:id="@+id/register_back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_enterpassword" />
 
     <Button
-        android:id="@+id/register_btn"
+        android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"

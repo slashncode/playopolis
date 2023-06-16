@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openRegisterView(){
-        Intent intent = new Intent(this, SetProfileActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 }

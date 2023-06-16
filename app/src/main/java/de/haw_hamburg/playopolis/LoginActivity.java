@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
-        backToStartImageView = (ImageView) findViewById(R.id.back_btn);
+        backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
         login_btn = (Button) findViewById(R.id.login_btn);
         email = (EditText) findViewById(R.id.edit_entermail);
         password = (EditText) findViewById(R.id.edit_enterpassword);

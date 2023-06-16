@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Playopolis.iml" filepath="$PROJECT_DIR$/.idea/modules/Playopolis.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.unitTest.iml" />
     </modules>
   </component>

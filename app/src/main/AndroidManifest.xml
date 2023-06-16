@@ -15,6 +15,7 @@
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".SetProfileActivity"></activity>
+        <activity android:name=".RecommendationActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
