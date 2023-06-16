@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Playopolis.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Playopolis.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.Playopolis.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.Playopolis.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.Playopolis.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.Playopolis.app.unitTest.iml" />
     </modules>
   </component>
 </project>

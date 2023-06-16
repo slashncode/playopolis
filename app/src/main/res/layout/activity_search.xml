@@ -2,12 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="15dp">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/profilImageButton"
@@ -31,65 +27,54 @@
         app:layout_constraintStart_toEndOf="@+id/profilImageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
-        android:layout_width="310dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="56dp"
+    <LinearLayout
+        android:id="@+id/search_linearlayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/profilImageButton">
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:src="@tools:sample/avatars" />
+        <SearchView
+            android:layout_width="310dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="56dp"
+            />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="180dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
+        <Button
+            android:id="@+id/searchResult1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
+        <Button
+            android:id="@+id/searchResult2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="180dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:src="@tools:sample/avatars" />
+        <Button
+            android:id="@+id/searchResult3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+    </LinearLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/BottomNavView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#FEFAFD"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:id="@+id/linearLayoutNavBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -131,4 +116,5 @@
         </LinearLayout>
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
