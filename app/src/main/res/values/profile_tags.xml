@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="genres">
+        <item>RPG</item>
+        <item>Survival</item>
+        <item>Puzzle</item>
+        <item>Horror</item>
+        <item>MMORPG</item>
+        <item>OpenWorld</item>
+        <item>Platformer</item>
+        <item>Simulation</item>
+        <item>Sci-Fi</item>
+        <item>Rhythm</item>
+        <item>Farming</item>
+
+    </string-array>
+
+    <string-array
+        name="games">
+        <item>Zelda</item>
+        <item>Diablo</item>
+        <item>Half Life 2</item>
+        <item>The binding of isaac</item>
+        <item>Guild Wars 2</item>
+        <item>League of Legends</item>
+        <item>BioShock</item>
+        <item>Borderlands 2</item>
+        <item>Elden Ring</item>
+        <item>Fallout 2</item>
+        <item>Left 4 Dead</item>
+        <item>OMORI</item>
+        <item>Path of Exile</item>
+        <item>Portals</item>
+        <item>Stray</item>
+        <item>Starbound</item>
+        <item>The Witcher</item>
+    </string-array>
+</resources>
