@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity{
         ImageView backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
         backToStartImageView.setOnClickListener(v -> openMainActivity());
 
-        Button register_btn = (Button) findViewById(R.id.login_btn);
+        Button register_btn = (Button) findViewById(R.id.register_btn);
         register_btn.setOnClickListener(v -> openSetProfileActivity());
     }
 
