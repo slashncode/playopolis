@@ -19,9 +19,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private ActivityMainBinding binding;
-    private Button button;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +37,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);*/
 
-        button = (Button) findViewById(R.id.login_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openLoginView();
-            }
-        });
+        //private ActivityMainBinding binding;
+        Button button = (Button) findViewById(R.id.login_button);
+        button.setOnClickListener(v -> openLoginView());
 
         button = (Button) findViewById(R.id.register_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openRegisterView();
-            }
-        });
+        button.setOnClickListener(v -> openRegisterView());
 
     }
 

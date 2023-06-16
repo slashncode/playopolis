@@ -69,8 +69,7 @@
                 app:cardCornerRadius="40dp"
                 app:layout_constraintEnd_toEndOf="@+id/avatar_textView"
                 app:layout_constraintStart_toStartOf="@+id/avatar_textView"
-                app:layout_constraintTop_toBottomOf="@+id/avatar_textView"
-                tools:ignore="MissingConstraints">
+                app:layout_constraintTop_toBottomOf="@+id/avatar_textView">
 
                 <ImageView
                     android:id="@+id/profilpicture_imageView"

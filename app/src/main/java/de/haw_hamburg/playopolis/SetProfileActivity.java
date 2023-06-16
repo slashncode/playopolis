@@ -19,8 +19,6 @@ import de.haw_hamburg.playopolis.ui.createProfile.SetProfileGenresAdapter;
 
 public class SetProfileActivity extends AppCompatActivity {
     private SetProfilePageBinding binding;
-    private Button button;
-    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,29 +31,16 @@ public class SetProfileActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        button = (Button) findViewById(R.id.setProfile_choosefile_btn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Button button = (Button) findViewById(R.id.setProfile_choosefile_btn);
+        button.setOnClickListener(v -> {
 
-            }
         });
 
         button = (Button) findViewById(R.id.setProfile_continue_btn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openRecommendationsView();
-            }
-        });
+        button.setOnClickListener(v -> openRecommendationsView());
 
-        imageView = (ImageView) findViewById(R.id.setProfile_back_btn);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openRegisterView();
-            }
-        });
+        ImageView imageView = (ImageView) findViewById(R.id.setProfile_back_btn);
+        imageView.setOnClickListener(v -> openRegisterView());
     }
 
     private void populateGenres() {
@@ -63,16 +48,9 @@ public class SetProfileActivity extends AppCompatActivity {
 
         int color = getResources().getColor(R.color.genre_tag);
 
-        SetProfileGenresAdapter genresAdapter = new SetProfileGenresAdapter(color, dataModelList, this);
+        SetProfileGenresAdapter genresAdapter = new SetProfileGenresAdapter(color, dataModelList);
         binding.setGenresAdapter(genresAdapter);
 
-        /*genresAdapter.setOnClickListener(new SetProfileGenresAdapter.OnClickListener(){
-
-            @Override
-            public void onClick(int position, String dataModel) {
-
-            }
-        });*/
     }
 
     private void populateGames() {
@@ -80,7 +58,7 @@ public class SetProfileActivity extends AppCompatActivity {
 
         int color = getResources().getColor(R.color.game_tag);
 
-        SetProfileGenresAdapter gamesAdapter = new SetProfileGenresAdapter(color, dataModelList, this);
+        SetProfileGenresAdapter gamesAdapter = new SetProfileGenresAdapter(color, dataModelList);
         binding.setGamesAdapter(gamesAdapter);
 
 

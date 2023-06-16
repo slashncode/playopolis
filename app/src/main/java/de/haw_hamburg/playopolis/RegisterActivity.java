@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity{
 
-    private ImageView backToStartImageView;
-    private Button register_btn;
     private EditText e_mail;
     private EditText username;
     private EditText password;
@@ -23,21 +21,11 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
 
-        backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
-        backToStartImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainActivity();
-            }
-        });
+        ImageView backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
+        backToStartImageView.setOnClickListener(v -> openMainActivity());
 
-        register_btn = (Button) findViewById(R.id.login_btn);
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSetProfileActivity();
-            }
-        });
+        Button register_btn = (Button) findViewById(R.id.login_btn);
+        register_btn.setOnClickListener(v -> openSetProfileActivity());
     }
 
     private void openSetProfileActivity() {

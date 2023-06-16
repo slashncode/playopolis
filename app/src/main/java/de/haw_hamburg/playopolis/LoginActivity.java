@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ImageView backToStartImageView;
-    private Button login_btn;
     private EditText email;
     private EditText password;
 
@@ -23,8 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
-        backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
-        login_btn = (Button) findViewById(R.id.login_btn);
+        ImageView backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
+        Button login_btn = (Button) findViewById(R.id.login_btn);
         email = (EditText) findViewById(R.id.edit_entermail);
         password = (EditText) findViewById(R.id.edit_enterpassword);
 

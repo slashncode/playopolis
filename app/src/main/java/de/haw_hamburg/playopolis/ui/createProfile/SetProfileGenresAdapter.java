@@ -6,63 +6,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import de.haw_hamburg.playopolis.BR;
 import de.haw_hamburg.playopolis.R;
 import de.haw_hamburg.playopolis.databinding.TagViewItemBinding;
 
-public class SetProfileGenresAdapter extends RecyclerView.Adapter<SetProfileGenresAdapter.ViewHolder> {
-    private int color;
-    private List<String> dataModelList;
-    private Context context;
-    private View.OnClickListener onClickListener;
+public class SetProfileGenresAdapter extends RecyclerView.Adapter<SetProfileGenresAdapter.ViewHolder> implements CustomClickListener{
+    private final int color;
+    private final List<ProfileGenre> dataModelList;
 
-    public SetProfileGenresAdapter(int color, List<String> dataModelList, Context ctx) {
-        this.dataModelList = dataModelList;
+    public SetProfileGenresAdapter(int color, List<String> inputList) {
+        this.dataModelList = new ArrayList<>();
+
+        for(String name : inputList){
+            dataModelList.add(new ProfileGenre(name));
+        }
+
         this.color = color;
-        context = ctx;
     }
 
+    @NonNull
     @Override
-    public SetProfileGenresAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SetProfileGenresAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         TagViewItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.tag_view_item,
                 parent,
-                false
-        );
+                false);
 
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String dataModel = dataModelList.get(position);
+        ProfileGenre dataModel = dataModelList.get(position);
         holder.bind(dataModel);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.itemRowBinding.setItemClickListener(this);
     }
 
     @Override
     public int getItemCount() {
         return dataModelList.size();
-    }
-
-    public void setOnClickListener(View.OnClickListener onClickListener){
-        this.onClickListener = onClickListener;
-    }
-
-    public interface OnClickListener{
-        void onClick(int position, String dataModel);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,15 +64,23 @@ public class SetProfileGenresAdapter extends RecyclerView.Adapter<SetProfileGenr
         }
 
         public void bind(Object obj) {
-            itemRowBinding.setVariable(BR.tagName, obj);
+            ProfileGenre input = (ProfileGenre) obj;
+
+            itemRowBinding.setVariable(BR.tagName, input.getTagName());
             itemRowBinding.setVariable(BR.color, color);
-            itemRowBinding.setVariable(BR.enabled, true);
+            itemRowBinding.setVariable(BR.enabled, input.getEnabled());
             itemRowBinding.executePendingBindings();
         }
+
     }
 
-    public void cardClicked(String f) {
-        Toast.makeText(context, "You clicked " + f,
-                Toast.LENGTH_LONG).show();
+    public void tagClicked(String f) {
+        for(int i = 0; i < dataModelList.size(); i++){
+            if(dataModelList.get(i).getTagName().equals(f)){
+                dataModelList.get(i).toggleEnabled();
+                notifyItemChanged(i);
+                break;
+            }
+        }
     }
 }
