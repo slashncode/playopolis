@@ -188,6 +188,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <!--
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/BottomNavView"
         android:layout_width="0dp"
@@ -239,6 +240,6 @@
         </LinearLayout>
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+    -->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-    </layout>
+</layout>
