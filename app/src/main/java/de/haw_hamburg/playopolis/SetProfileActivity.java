@@ -37,7 +37,12 @@ public class SetProfileActivity extends AppCompatActivity {
         });
 
         button = (Button) findViewById(R.id.setProfile_continue_btn);
-        button.setOnClickListener(v -> openRecommendationsView());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRecommendationsView();
+            }
+        });
 
         ImageView imageView = (ImageView) findViewById(R.id.setProfile_back_btn);
         imageView.setOnClickListener(v -> openRegisterView());
