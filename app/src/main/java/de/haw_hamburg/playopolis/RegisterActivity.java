@@ -6,12 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity{
 
-    private EditText e_mail;
+    private EditText email;
     private EditText username;
     private EditText password;
     private EditText password_repeat;
@@ -21,11 +22,34 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
 
+        email = (EditText) findViewById(R.id.edit_entermail);
+        username = (EditText) findViewById(R.id.editTextText);
+        password = (EditText) findViewById(R.id.edit_enterpassword);
+        password_repeat = (EditText) findViewById(R.id.editTextRepeatPassword);
+
         ImageView backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
         backToStartImageView.setOnClickListener(v -> openMainActivity());
 
         Button register_btn = (Button) findViewById(R.id.register_btn);
-        register_btn.setOnClickListener(v -> openSetProfileActivity());
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String inputMail = email.getText().toString();
+                String inputUsername = username.getText().toString();
+                String inputPassword = password.getText().toString();
+                String inputRepPassword = password_repeat.getText().toString();
+
+                if (inputMail.isEmpty() || inputPassword.isEmpty() || inputPassword.isEmpty() || inputRepPassword.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Please fill in all the fields!", Toast.LENGTH_LONG).show();
+                }
+                if(!inputPassword.equals(inputRepPassword)) {
+                    Toast.makeText(RegisterActivity.this, "Passwords are not the same, fill out again.", Toast.LENGTH_LONG).show();
+                }
+                openSetProfileActivity();
+            }
+        });
+
+
     }
 
     private void openSetProfileActivity() {

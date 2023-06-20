@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         backToStartImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMainActivity();
+                openRecommendationActivity();
             }
         });
 
