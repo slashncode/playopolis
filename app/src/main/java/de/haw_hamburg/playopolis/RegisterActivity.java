@@ -39,17 +39,23 @@ public class RegisterActivity extends AppCompatActivity{
                 String inputPassword = password.getText().toString();
                 String inputRepPassword = password_repeat.getText().toString();
 
-                if (inputMail.isEmpty() || inputPassword.isEmpty() || inputPassword.isEmpty() || inputRepPassword.isEmpty()) {
+                if (inputMail.isEmpty() || inputUsername.isEmpty() || inputPassword.isEmpty() || inputRepPassword.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please fill in all the fields!", Toast.LENGTH_LONG).show();
                 }
                 if(!inputPassword.equals(inputRepPassword)) {
                     Toast.makeText(RegisterActivity.this, "Passwords are not the same, fill out again.", Toast.LENGTH_LONG).show();
+                } else {
+                    openSetProfileActivity();
                 }
-                openSetProfileActivity();
             }
         });
 
 
+    }
+
+    private void openRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void openSetProfileActivity() {

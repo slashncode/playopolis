@@ -41,10 +41,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (inputMail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
+                } else {
+                    openRecommendationActivity();
                 }
-                openRecommendationActivity();
             }
         });
+    }
+
+    private void openLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void openMainActivity() {
