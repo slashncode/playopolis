@@ -30,6 +30,10 @@ android {
         viewBinding true
         dataBinding true
     }
+
+    packagingOptions {
+        pickFirst "META-INF/DEPENDENCIES"
+    }
 }
 
 dependencies {
