@@ -40,10 +40,11 @@ public class RegisterActivity extends AppCompatActivity{
                 String inputRepPassword = password_repeat.getText().toString();
 
                 if (inputMail.isEmpty() || inputUsername.isEmpty() || inputPassword.isEmpty() || inputRepPassword.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Please fill in all the fields!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 if(!inputPassword.equals(inputRepPassword)) {
-                    Toast.makeText(RegisterActivity.this, "Passwords are not the same, fill out again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Passwords are not the same. Try again.", Toast.LENGTH_SHORT).show();
                 } else {
                     openSetProfileActivity();
                 }
@@ -53,10 +54,6 @@ public class RegisterActivity extends AppCompatActivity{
 
     }
 
-    private void openRegisterActivity() {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
 
     private void openSetProfileActivity() {
             Intent intent = new Intent(this, SetProfileActivity.class);

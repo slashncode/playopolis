@@ -48,16 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void openLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     private void openRecommendationActivity() {
         Intent intent = new Intent(this, RecommendationActivity.class);
         startActivity(intent);
