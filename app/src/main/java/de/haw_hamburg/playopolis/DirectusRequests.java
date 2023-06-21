@@ -35,7 +35,26 @@ public class DirectusRequests {
         //DirectusRequests.patchRequest(1, "genres", "");
     //}
 
-
+    /**
+     *
+     * This function only registers a new user with his email, username and password.
+     * The avatar, game genres, favorite games and description have to be patched in the next view.
+     * Avatars and favorite games are O2M- / M2M-relationships and can only be added after the user
+     * is registered and has an ID in the database.
+     *
+     * Adding an avatar looks like this:
+     * String imageId = String.valueOf(getRequest("https://directus-se.up.railway.app/files?filter[filename_download][_eq]=" + createImage(imagePath) + "&fields[]=id").get("data").get(0).get("id"));
+     * // Strip double quotes of image ID
+     * String newImageId = imageId.substring(1, imageId.length() - 1);
+     * DirectusRequests.patchRequest(userId, "avatar", newImageId);
+     *
+     * Adding the favorite games looks like this:
+     * DirectusRequests.setFavoriteGame(gameId, userId);
+     *
+     * @param email
+     * @param username
+     * @param password
+     */
     public static void registerUser(String email, String username, String password) {
         String apiUrl = "https://directus-se.up.railway.app/items/users";
 
@@ -51,67 +70,6 @@ public class DirectusRequests {
             requestObject.setEmail(email);
             requestObject.setUsername(username);
             requestObject.setPassword(password);
-
-            // Serialize the object to JSON
-            ObjectMapper userObjectMapper = new ObjectMapper();
-            String jsonRequest = userObjectMapper.writeValueAsString(requestObject);
-
-            System.out.println(jsonRequest);
-
-            // Write the JSON request to the connection's output stream
-            OutputStream outputStream = connection.getOutputStream();
-            outputStream.write(jsonRequest.getBytes());
-            outputStream.flush();
-            outputStream.close();
-
-            // Get the response
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            // Process the response
-            System.out.println(response.toString());
-
-            // Close the connection
-            connection.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void createUser(String email, String username, String password, ArrayList<String> genres, String imagePath, String description) {
-        String apiUrl = "https://directus-se.up.railway.app/items/users";
-
-        try {
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            // Create the object to be sent in the request
-            DirectusUser requestObject = new DirectusUser();
-            requestObject.setEmail(email);
-            requestObject.setUsername(username);
-            requestObject.setPassword(password);
-            requestObject.setGenres(genres);
-            // Create image and send a GET Request to get the image ID
-            String imageId = String.valueOf(getRequest("https://directus-se.up.railway.app/files?filter[filename_download][_eq]=" + createImage(imagePath) + "&fields[]=id").get("data").get(0).get("id"));
-            // Strip double quotes of image ID
-            String newImageId = imageId.substring(1, imageId.length() - 1);
-            requestObject.setAvatar(newImageId);
-            // Use this for loop after user creation. User ID needed
-            /*
-            for (Integer favoriteGame :
-                    favoriteGames) {
-                setFavoriteGame(favoriteGame, userId);
-            }
-            */
-            requestObject.setDescription(description);
 
             // Serialize the object to JSON
             ObjectMapper userObjectMapper = new ObjectMapper();
