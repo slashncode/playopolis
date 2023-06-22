@@ -1,35 +1,46 @@
 package de.haw_hamburg.playopolis;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.widget.ImageView;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RecommendationActivity extends AppCompatActivity {
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
+public class GameDetailedActivity extends AppCompatActivity {
+
+    private ImageView home_btn;
     private ImageView search_btn;
     private ImageView profile_btn;
-
+    private ImageView favorite;
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.recommendation_page);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_detailed);
 
         initializeViews();
         setClickListeners();
     }
+
     private void initializeViews(){
+        home_btn = (ImageView) findViewById(R.id.homeButton);
         search_btn = (ImageView) findViewById(R.id.searchButton);
+        favorite = (ImageView) findViewById(R.id.starButton);
         profile_btn = (ImageView) findViewById(R.id.profilButton);
     }
     private void setClickListeners(){
+        home_btn.setOnClickListener(v -> openRecommendationActivity());
         search_btn.setOnClickListener(v -> openSearchActivity());
         profile_btn.setOnClickListener(v -> openProfileActivity());
+        favorite.setOnClickListener(v -> {
+
+        });
     }
 
+    private void openRecommendationActivity(){
+        Intent intent = new Intent(this, RecommendationActivity.class);
+        startActivity(intent);
+    }
     private void openSearchActivity(){
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
