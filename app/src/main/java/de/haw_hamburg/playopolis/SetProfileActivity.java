@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +26,10 @@ public class SetProfileActivity extends AppCompatActivity {
     private Button chooseFile_btn;
     private Button continue_btn;
     private ImageView setProfile_back_btn;
+    private RecyclerView genreRecyclerView;
+    private RecyclerView gamesRecyclerView;
+    private FlexboxLayoutManager genreLayoutManager;
+    private FlexboxLayoutManager gamesLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,11 @@ public class SetProfileActivity extends AppCompatActivity {
 
         initializeViews();
         setClickListeners();
+
+        genreLayoutManager.setFlexDirection(FlexDirection.ROW);
+        genreRecyclerView.setLayoutManager(genreLayoutManager);
+        gamesLayoutManager.setFlexDirection(FlexDirection.ROW);
+        gamesRecyclerView.setLayoutManager(gamesLayoutManager);
 
         populateGenres();
         populateGames();
@@ -59,6 +72,10 @@ public class SetProfileActivity extends AppCompatActivity {
         continue_btn = (Button) findViewById(R.id.setProfile_continue_btn);
         chooseFile_btn = (Button) findViewById(R.id.setProfile_choosefile_btn);
         setProfile_back_btn = (ImageView) findViewById(R.id.setProfile_back_btn);
+        genreRecyclerView = (RecyclerView) findViewById(R.id.genre_tags_recyclerview);
+        gamesRecyclerView = (RecyclerView) findViewById(R.id.game_tags_recyclerview);
+        genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
+        gamesLayoutManager = new FlexboxLayoutManager(getApplicationContext());
     }
 
     private void setClickListeners(){

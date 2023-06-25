@@ -7,6 +7,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +24,10 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView search_btn;
     private ProfilePageBinding binding;
     private Button chooseFile_btn;
+    private RecyclerView genreRecyclerView;
+    private RecyclerView gamesRecyclerView;
+    private FlexboxLayoutManager genreLayoutManager;
+    private FlexboxLayoutManager gamesLayoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,9 +40,12 @@ public class ProfileActivity extends AppCompatActivity {
         populateGenres();
         populateGames();
 
+        genreLayoutManager.setFlexDirection(FlexDirection.ROW);
+        genreRecyclerView.setLayoutManager(genreLayoutManager);
+        gamesLayoutManager.setFlexDirection(FlexDirection.ROW);
+        gamesRecyclerView.setLayoutManager(gamesLayoutManager);
+
         setContentView(binding.getRoot());
-
-
     }
 
     private void populateGenres() {
@@ -58,6 +69,10 @@ public class ProfileActivity extends AppCompatActivity {
         home_btn = (ImageView) findViewById(R.id.homeButton);
         search_btn = (ImageView) findViewById(R.id.searchButton);
         chooseFile_btn = (Button) findViewById(R.id.profile_choosefile_btn);
+        genreRecyclerView = (RecyclerView) findViewById(R.id.genre_tags_recyclerview);
+        gamesRecyclerView = (RecyclerView) findViewById(R.id.game_tags_recyclerview);
+        genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
+        gamesLayoutManager = new FlexboxLayoutManager(getApplicationContext());
     }
     private void setClickListeners(){
         home_btn.setOnClickListener(v -> openRecommendationActivity());

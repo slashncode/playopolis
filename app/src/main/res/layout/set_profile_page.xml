@@ -112,13 +112,11 @@
                 android:clipToPadding="false"
                 android:paddingTop="8dp"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintEnd_toEndOf="@+id/setProfile_textView"
                 app:layout_constraintHeight_max="110dp"
                 app:layout_constraintStart_toStartOf="@+id/setProfile_textView"
                 app:layout_constraintTop_toBottomOf="@+id/genres_textView"
-                app:spanCount="3"
                 tools:listitem="@layout/tag_view_item" />
 
             <TextView
@@ -139,13 +137,11 @@
                 android:clipToPadding="false"
                 android:paddingTop="8dp"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintEnd_toEndOf="@+id/genre_tags_recyclerview"
                 app:layout_constraintHeight_max="110dp"
                 app:layout_constraintStart_toStartOf="@+id/genre_tags_recyclerview"
                 app:layout_constraintTop_toBottomOf="@+id/playedGames_textView"
-                app:spanCount="3"
                 tools:listitem="@layout/tag_view_item" />
 
             <TextView
