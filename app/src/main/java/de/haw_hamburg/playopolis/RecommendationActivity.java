@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
 
 public class RecommendationActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class RecommendationActivity extends AppCompatActivity {
     private ImageView home;
     private SearchView search;
     private ImageView profile;
+    private TextView username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,10 @@ public class RecommendationActivity extends AppCompatActivity {
         profile = (ImageView) findViewById(R.id.profilButton);
         profile.setOnClickListener(v -> openProfileActivity());
 
+        username = (TextView) findViewById(R.id.profilUserName);
+        Intent intent = getIntent();
+        String loginUsername = intent.getStringExtra("username");
+        username.setText(loginUsername);
     }
 
     private void openProfileActivity() {

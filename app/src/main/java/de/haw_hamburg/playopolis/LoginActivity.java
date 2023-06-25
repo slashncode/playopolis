@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         backToStartImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRecommendationActivity();
+                openMainActivity();
             }
         });
 
@@ -42,16 +42,17 @@ public class LoginActivity extends AppCompatActivity {
                 if (inputMail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
                 } else {
-                    openRecommendationActivity();
+                    Intent intent = new Intent(LoginActivity.this, RecommendationActivity.class);
+                    intent.putExtra("username", inputMail);
+                    startActivity(intent);
                 }
             }
         });
     }
 
-    private void openRecommendationActivity() {
-        Intent intent = new Intent(this, RecommendationActivity.class);
+    private void openMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
 
 }
