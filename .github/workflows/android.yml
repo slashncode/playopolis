@@ -33,4 +33,3 @@ jobs:
           name: Release v${{ github.run_number }}
           draft: false
           prerelease: false
-          overwrite: true
