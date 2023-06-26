@@ -28,7 +28,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
           artifacts: app/build/outputs/apk/release/app-release.apk
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_PAT }}
           tag: v${{ github.run_number }}
           name: Release v${{ github.run_number }}
           draft: false
