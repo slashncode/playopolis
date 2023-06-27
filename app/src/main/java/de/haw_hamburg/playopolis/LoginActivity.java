@@ -49,10 +49,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void initializeViews(){
-        email = (EditText) findViewById(R.id.edit_entermail);
-        password = (EditText) findViewById(R.id.edit_enterpassword);
-        login_btn = (Button) findViewById(R.id.login_btn);
-        backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
+        email = findViewById(R.id.edit_entermail);
+        password = findViewById(R.id.edit_enterpassword);
+        login_btn = findViewById(R.id.login_btn);
+        backToStartImageView = findViewById(R.id.register_back_btn);
     }
 
 }

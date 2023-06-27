@@ -40,7 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="421dp"
                         android:adjustViewBounds="false"
-                        android:contentDescription="Picture"
+                        android:contentDescription="@string/picture"
                         android:cropToPadding="false"
                         android:scaleType="centerCrop"
                         tools:layout_editor_absoluteX="0dp"

@@ -43,21 +43,6 @@ public class RecommendationActivity extends AppCompatActivity {
         Glide.with(this).load("https://directus-se.up.railway.app/assets/4b9a81c1-1c04-4215-90f6-9552bb73eb7a").centerCrop().into(game3);
         Glide.with(this).load("https://directus-se.up.railway.app/assets/9c6ad53f-36f5-4a88-acf7-d3966cbc2bca").centerCrop().into(game4);
 
-        game1.setOnClickListener(v -> openGame_detailedActivity());
-        game2.setOnClickListener(v -> openGame_detailedActivity());
-        game3.setOnClickListener(v -> openGame_detailedActivity());
-        game4.setOnClickListener(v -> openGame_detailedActivity());
-
-        home = (ImageView) findViewById(R.id.homeButton);
-        home.setOnClickListener(v -> recreate());
-
-        search = (SearchView) findViewById(R.id.searchGame);
-        search.setOnClickListener(v -> recreate());
-
-        profile = (ImageView) findViewById(R.id.profilButton);
-        profile.setOnClickListener(v -> openProfileActivity());
-
-        username = (TextView) findViewById(R.id.profilUserName);
         Intent intent = getIntent();
         String loginUsername = intent.getStringExtra("username");
         username.setText(loginUsername);
@@ -69,12 +54,20 @@ public class RecommendationActivity extends AppCompatActivity {
     }
 
     private void openGame_detailedActivity() {
-        Intent intent = new Intent(this, Game_detailedActivity.class);
+        Intent intent = new Intent(this, GameDetailedActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSearchActivity() {
+        Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
     private void initializeViews(){
         search_btn = findViewById(R.id.searchButton);
         profile_btn = findViewById(R.id.profilButton);
+        home = findViewById(R.id.homeButton);
+        search = (SearchView) findViewById(R.id.searchGame);
+        username = (TextView) findViewById(R.id.profilUserName);
         game1 = findViewById(R.id.game1);
         game2 = findViewById(R.id.game2);
         game3 = findViewById(R.id.game3);
@@ -82,8 +75,17 @@ public class RecommendationActivity extends AppCompatActivity {
     }
     private void setClickListeners(){
         search_btn.setOnClickListener(v -> openSearchActivity());
+        search.setOnClickListener(v -> openSearchActivity());
         profile_btn.setOnClickListener(v -> openProfileActivity());
+        home.setOnClickListener(v -> recreate());
+        game1.setOnClickListener(v -> openGame_detailedActivity());
+        game2.setOnClickListener(v -> openGame_detailedActivity());
+        game3.setOnClickListener(v -> openGame_detailedActivity());
+        game4.setOnClickListener(v -> openGame_detailedActivity());
+
     }
+
+
 
 }
 
