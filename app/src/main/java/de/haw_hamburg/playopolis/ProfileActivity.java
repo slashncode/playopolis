@@ -24,6 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView search_btn;
     private ProfilePageBinding binding;
     private Button chooseFile_btn;
+    private Button logout_btn;
     private RecyclerView genreRecyclerView;
     private RecyclerView gamesRecyclerView;
     private FlexboxLayoutManager genreLayoutManager;
@@ -37,13 +38,13 @@ public class ProfileActivity extends AppCompatActivity {
         initializeViews();
         setClickListeners();
 
-        populateGenres();
-        populateGames();
-
         genreLayoutManager.setFlexDirection(FlexDirection.ROW);
         genreRecyclerView.setLayoutManager(genreLayoutManager);
         gamesLayoutManager.setFlexDirection(FlexDirection.ROW);
         gamesRecyclerView.setLayoutManager(gamesLayoutManager);
+
+        populateGenres();
+        populateGames();
 
         setContentView(binding.getRoot());
     }
@@ -66,20 +67,26 @@ public class ProfileActivity extends AppCompatActivity {
         binding.setGamesAdapter(gamesAdapter);
     }
     private void initializeViews(){
-        home_btn = (ImageView) findViewById(R.id.homeButton);
-        search_btn = (ImageView) findViewById(R.id.searchButton);
-        chooseFile_btn = (Button) findViewById(R.id.profile_choosefile_btn);
-        genreRecyclerView = (RecyclerView) findViewById(R.id.genre_tags_recyclerview);
-        gamesRecyclerView = (RecyclerView) findViewById(R.id.game_tags_recyclerview);
+        home_btn = findViewById(R.id.homeButton);
+        search_btn = findViewById(R.id.searchButton);
+        chooseFile_btn = findViewById(R.id.profile_choosefile_btn);
+        logout_btn = findViewById(R.id.logout_btn);
+        genreRecyclerView = binding.profileGenreTagsRecyclerview;
+        gamesRecyclerView = binding.profileGameTagsRecyclerview;
         genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
         gamesLayoutManager = new FlexboxLayoutManager(getApplicationContext());
     }
     private void setClickListeners(){
         home_btn.setOnClickListener(v -> openRecommendationActivity());
         search_btn.setOnClickListener(v -> openSearchActivity());
-        chooseFile_btn.setOnClickListener(v -> {
+        //TODO: set onClick Listener to choose pfp file
+        /*chooseFile_btn.setOnClickListener(v -> {
 
-        });
+        });*/
+        //TODO: set onClick Listener to actually logout
+        /*logout_btn.setOnClickListener(v -> {
+            openMainActivity();
+        });*/
     }
 
     private void openRecommendationActivity(){
@@ -88,6 +95,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
     private void openSearchActivity(){
         Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    private void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

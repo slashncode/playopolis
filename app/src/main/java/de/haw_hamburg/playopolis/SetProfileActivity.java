@@ -69,11 +69,11 @@ public class SetProfileActivity extends AppCompatActivity {
         binding.setGamesAdapter(gamesAdapter);
     }
     private void initializeViews(){
-        continue_btn = (Button) findViewById(R.id.setProfile_continue_btn);
-        chooseFile_btn = (Button) findViewById(R.id.setProfile_choosefile_btn);
-        setProfile_back_btn = (ImageView) findViewById(R.id.setProfile_back_btn);
-        genreRecyclerView = (RecyclerView) findViewById(R.id.genre_tags_recyclerview);
-        gamesRecyclerView = (RecyclerView) findViewById(R.id.game_tags_recyclerview);
+        continue_btn = findViewById(R.id.setProfile_continue_btn);
+        chooseFile_btn = findViewById(R.id.setProfile_choosefile_btn);
+        setProfile_back_btn = findViewById(R.id.setProfile_back_btn);
+        genreRecyclerView = findViewById(R.id.genre_tags_recyclerview);
+        gamesRecyclerView = findViewById(R.id.game_tags_recyclerview);
         genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
         gamesLayoutManager = new FlexboxLayoutManager(getApplicationContext());
     }

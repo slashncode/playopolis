@@ -21,10 +21,10 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
 
-        ImageView backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
+        ImageView backToStartImageView = findViewById(R.id.register_back_btn);
         backToStartImageView.setOnClickListener(v -> openMainActivity());
 
-        Button register_btn = (Button) findViewById(R.id.register_btn);
+        Button register_btn = findViewById(R.id.register_btn);
         register_btn.setOnClickListener(v -> openSetProfileActivity());
     }
 
