@@ -14,6 +14,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
+    private Button login_btn;
+    private ImageView backToStartImageView;
 
 
     @Override
@@ -21,21 +23,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
-        ImageView backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
-        Button login_btn = (Button) findViewById(R.id.login_btn);
-        email = (EditText) findViewById(R.id.edit_entermail);
-        password = (EditText) findViewById(R.id.edit_enterpassword);
+        initializeViews();
 
-        backToStartImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainActivity();
-            }
-        });
+        backToStartImageView.setOnClickListener(v -> openMainActivity());
 
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        login_btn.setOnClickListener(v -> {
                 String inputMail = email.getText().toString();
                 String inputPassword = password.getText().toString();
 
@@ -46,13 +38,21 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("username", inputMail);
                     startActivity(intent);
                 }
-            }
         });
     }
+
 
     private void openMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+
+    private void initializeViews(){
+        email = (EditText) findViewById(R.id.edit_entermail);
+        password = (EditText) findViewById(R.id.edit_enterpassword);
+        login_btn = (Button) findViewById(R.id.login_btn);
+        backToStartImageView = (ImageView) findViewById(R.id.register_back_btn);
     }
 
 }

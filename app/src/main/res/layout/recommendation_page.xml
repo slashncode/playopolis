@@ -81,55 +81,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:src="@tools:sample/avatars" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/BottomNavView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#FEFAFD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:id="@+id/linearLayoutNavBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/homeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/homeicon" />
-
-            <ImageView
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/suche" />
-
-            <ImageView
-                android:id="@+id/chatButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/konversation" />
-
-
-            <ImageView
-                android:id="@+id/profilButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-
-                app:srcCompat="@drawable/profil" />
-
-        </LinearLayout>
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    <include layout="@layout/navbar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

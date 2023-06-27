@@ -14,232 +14,186 @@
             type="de.haw_hamburg.playopolis.ui.createProfile.SetProfileGenresAdapter" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/BottomNavView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/profile_back_btn"
-                android:layout_width="45dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/arrow_back" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/profile_username"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="64dp"
-                android:layout_marginEnd="64dp"
-                android:gravity="center_horizontal"
-                android:text="@string/profile_username"
-                android:textSize="40sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_back_btn" />
+                <TextView
+                    android:id="@+id/profile_username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="64dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/profile_username"
+                    android:textSize="40sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/profile_avatar_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/avatar"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/profile_username"
-                app:layout_constraintStart_toStartOf="@+id/profile_username"
-                app:layout_constraintTop_toBottomOf="@+id/profile_username" />
+                <TextView
+                    android:id="@+id/profile_avatar_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/avatar"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_username"
+                    app:layout_constraintStart_toStartOf="@+id/profile_username"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_username" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/round_cardView2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:elevation="12dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                android:thicknessRatio="1.9"
-                app:cardCornerRadius="40dp"
-                app:layout_constraintEnd_toEndOf="@+id/profile_avatar_textView"
-                app:layout_constraintStart_toStartOf="@+id/profile_avatar_textView"
-                app:layout_constraintTop_toBottomOf="@+id/profile_avatar_textView">
-
-                <ImageView
-                    android:id="@+id/profilpicture2_imageView"
-                    android:layout_width="match_parent"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/round_cardView2"
+                    android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:contentDescription="@string/place_holder"
-                    android:scaleType="centerCrop"
-                    tools:layout_editor_absoluteX="112dp"
-                    tools:layout_editor_absoluteY="284dp"
-                    tools:srcCompat="@tools:sample/avatars" />
-            </com.google.android.material.card.MaterialCardView>
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:elevation="12dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="40dp"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_avatar_textView"
+                    app:layout_constraintStart_toStartOf="@+id/profile_avatar_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_avatar_textView">
 
-            <Button
-                android:id="@+id/profile_choosefile_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:text="@string/choose_file"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/round_cardView2"
-                app:layout_constraintStart_toStartOf="@+id/round_cardView2"
-                app:layout_constraintTop_toBottomOf="@+id/round_cardView2" />
+                    <ImageView
+                        android:id="@+id/profilpicture2_imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:contentDescription="@string/place_holder"
+                        android:scaleType="centerCrop"
+                        tools:layout_editor_absoluteX="112dp"
+                        tools:layout_editor_absoluteY="284dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+                </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/genres_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/genres"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/profile_username"
-                app:layout_constraintTop_toBottomOf="@+id/profile_choosefile_btn" />
+                <Button
+                    android:id="@+id/profile_choosefile_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="@string/choose_file"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@+id/round_cardView2"
+                    app:layout_constraintStart_toStartOf="@+id/round_cardView2"
+                    app:layout_constraintTop_toBottomOf="@+id/round_cardView2" />
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/profile_genre_tags_recyclerview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:adapter="@{genresAdapter}"
-                android:clipToPadding="false"
-                android:paddingTop="8dp"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constrainedHeight="true"
-                app:layout_constraintEnd_toEndOf="@+id/profile_username"
-                app:layout_constraintHeight_max="110dp"
-                app:layout_constraintStart_toStartOf="@+id/profile_username"
-                app:layout_constraintTop_toBottomOf="@+id/genres_textView"
-                app:spanCount="3"
-                tools:listitem="@layout/tag_view_item" />
-
-            <TextView
-                android:id="@+id/profile_playedGames_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/games_you_ve_played"
-                app:layout_constraintStart_toStartOf="@+id/profile_genre_tags_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/profile_genre_tags_recyclerview" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/profile_game_tags_recyclerview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:adapter="@{gamesAdapter}"
-                android:clipToPadding="false"
-                android:paddingTop="8dp"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constrainedHeight="true"
-                app:layout_constraintEnd_toEndOf="@+id/profile_genre_tags_recyclerview"
-                app:layout_constraintHeight_max="110dp"
-                app:layout_constraintStart_toStartOf="@+id/profile_genre_tags_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/profile_playedGames_textView"
-                app:spanCount="3"
-                tools:listitem="@layout/tag_view_item" />
-
-            <TextView
-                android:id="@+id/profile_description_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/describe_yourself"
-                app:layout_constraintStart_toStartOf="@+id/profile_game_tags_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/profile_game_tags_recyclerview" />
-
-            <EditText
-                android:id="@+id/profile_description_editText"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:scrollbars="vertical"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/profile_game_tags_recyclerview"
-                app:layout_constraintStart_toStartOf="@+id/profile_game_tags_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/profile_description_textView" />
-
-            <Button
-                android:id="@+id/profile_continue_btn"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/button_bg"
-                android:text="@string/nextpage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_description_editText" />
+                <TextView
+                    android:id="@+id/genres_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/genres"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/profile_username"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_choosefile_btn" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-    <!--
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/BottomNavView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#FEFAFD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_genre_tags_recyclerview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:adapter="@{genresAdapter}"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:scrollbars="vertical"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_username"
+                    app:layout_constraintHeight_max="110dp"
+                    app:layout_constraintStart_toStartOf="@+id/profile_username"
+                    app:layout_constraintTop_toBottomOf="@+id/genres_textView"
+                    tools:listitem="@layout/tag_view_item" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutNavBar"
-            android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/profile_playedGames_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/games_you_ve_played"
+                    app:layout_constraintStart_toStartOf="@+id/profile_genre_tags_recyclerview"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_genre_tags_recyclerview" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_game_tags_recyclerview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:adapter="@{gamesAdapter}"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:scrollbars="vertical"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_genre_tags_recyclerview"
+                    app:layout_constraintHeight_max="110dp"
+                    app:layout_constraintStart_toStartOf="@+id/profile_genre_tags_recyclerview"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_playedGames_textView"
+                    tools:listitem="@layout/tag_view_item" />
+
+                <TextView
+                    android:id="@+id/profile_description_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/describe_yourself"
+                    app:layout_constraintStart_toStartOf="@+id/profile_game_tags_recyclerview"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_game_tags_recyclerview" />
+
+                <EditText
+                    android:id="@+id/profile_description_editText"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:scrollbars="vertical"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_game_tags_recyclerview"
+                    app:layout_constraintStart_toStartOf="@+id/profile_game_tags_recyclerview"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_description_textView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/profile_back_btn"
+            android:layout_width="45dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/arrow_back" />
+
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginEnd="16dp"
+            android:text="@string/logout"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_back_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/profile_back_btn" />
 
-            <ImageView
-                android:id="@+id/homeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/homeicon" />
+        <include layout="@layout/navbar" />
 
-            <ImageView
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/suche" />
-
-            <ImageView
-                android:id="@+id/chatButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/konversation" />
-
-
-            <ImageView
-                android:id="@+id/profilButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-
-                app:srcCompat="@drawable/profil" />
-
-        </LinearLayout>
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-    -->
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
+

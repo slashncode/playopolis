@@ -22,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
 
+        //TODO: Initialize Views & Onclicks
         email = (EditText) findViewById(R.id.edit_entermail);
         username = (EditText) findViewById(R.id.editTextText);
         password = (EditText) findViewById(R.id.edit_enterpassword);
@@ -31,9 +32,8 @@ public class RegisterActivity extends AppCompatActivity{
         backToStartImageView.setOnClickListener(v -> openMainActivity());
 
         Button register_btn = (Button) findViewById(R.id.register_btn);
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        register_btn.setOnClickListener(v -> {
                 String inputMail = email.getText().toString();
                 String inputUsername = username.getText().toString();
                 String inputPassword = password.getText().toString();
@@ -49,12 +49,7 @@ public class RegisterActivity extends AppCompatActivity{
                     //DirectusRequests.registerUser(inputMail, inputUsername, inputPassword, inputRepPassword);
                     openSetProfileActivity();
                 }
-            }
         });
-
-
-    }
-
 
     private void openSetProfileActivity() {
             Intent intent = new Intent(this, SetProfileActivity.class);

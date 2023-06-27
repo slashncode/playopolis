@@ -1,6 +1,7 @@
 package de.haw_hamburg.playopolis;
 
 import android.content.Intent;
+
 import android.media.Image;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -23,18 +24,19 @@ public class RecommendationActivity extends AppCompatActivity {
     private ImageView game4;
     private ImageView home;
     private SearchView search;
-    private ImageView profile;
     private TextView username;
+    //NAV BAR
+    private ImageView search_btn;
+    private ImageView profile_btn;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recommendation_page);
 
-        game1 = (ImageView) findViewById(R.id.game1);
-        game2 = (ImageView) findViewById(R.id.game2);
-        game3 = (ImageView) findViewById(R.id.game3);
-        game4 = (ImageView) findViewById(R.id.game4);
+        initializeViews();
+        setClickListeners();
 
         Glide.with(this).load("https://directus-se.up.railway.app/assets/1fc08ec4-cb1b-4475-ba4a-b7485dfc4ee8").centerCrop().into(game1);
         Glide.with(this).load("https://directus-se.up.railway.app/assets/97127f04-aebc-4418-9874-1d845e9922a8").centerCrop().into(game2);
@@ -70,4 +72,18 @@ public class RecommendationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Game_detailedActivity.class);
         startActivity(intent);
     }
+    private void initializeViews(){
+        search_btn = findViewById(R.id.searchButton);
+        profile_btn = findViewById(R.id.profilButton);
+        game1 = findViewById(R.id.game1);
+        game2 = findViewById(R.id.game2);
+        game3 = findViewById(R.id.game3);
+        game4 = findViewById(R.id.game4);
+    }
+    private void setClickListeners(){
+        search_btn.setOnClickListener(v -> openSearchActivity());
+        profile_btn.setOnClickListener(v -> openProfileActivity());
+    }
+
 }
+
