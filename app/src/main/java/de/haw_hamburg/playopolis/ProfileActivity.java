@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,18 +24,30 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView home_btn;
     private ImageView search_btn;
+    private ImageView profile_picture;
     private ProfilePageBinding binding;
     private Button chooseFile_btn;
     private Button logout_btn;
+    private Button continue_btn;
+
     private RecyclerView genreRecyclerView;
     private RecyclerView gamesRecyclerView;
     private FlexboxLayoutManager genreLayoutManager;
     private FlexboxLayoutManager gamesLayoutManager;
+    private ActivityResultLauncher<String> filePickerLauncher;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.profile_page);
+
+        filePickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    profile_picture.setImageURI(uri);
+                }
+            });
 
         initializeViews();
         setClickListeners();
@@ -71,6 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
         search_btn = findViewById(R.id.searchButton);
         chooseFile_btn = findViewById(R.id.profile_choosefile_btn);
         logout_btn = findViewById(R.id.logout_btn);
+        continue_btn = findViewById(R.id.profile_continue_btn);
+        profile_picture = findViewById(R.id.profilpicture2_imageView);
         genreRecyclerView = binding.profileGenreTagsRecyclerview;
         gamesRecyclerView = binding.profileGameTagsRecyclerview;
         genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
@@ -79,14 +95,12 @@ public class ProfileActivity extends AppCompatActivity {
     private void setClickListeners(){
         home_btn.setOnClickListener(v -> openRecommendationActivity());
         search_btn.setOnClickListener(v -> openSearchActivity());
+        continue_btn.setOnClickListener(v -> openRecommendationActivity());
+        logout_btn.setOnClickListener(v -> openMainActivity());
         //TODO: set onClick Listener to choose pfp file
-        /*chooseFile_btn.setOnClickListener(v -> {
-
-        });*/
-        //TODO: set onClick Listener to actually logout
-        /*logout_btn.setOnClickListener(v -> {
-            openMainActivity();
-        });*/
+        chooseFile_btn.setOnClickListener(v -> {
+            filePickerLauncher.launch("image/*");
+        });
     }
 
     private void openRecommendationActivity(){

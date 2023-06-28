@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,15 +28,25 @@ public class SetProfileActivity extends AppCompatActivity {
     private Button chooseFile_btn;
     private Button continue_btn;
     private ImageView setProfile_back_btn;
+    private ImageView profile_picture;
     private RecyclerView genreRecyclerView;
     private RecyclerView gamesRecyclerView;
     private FlexboxLayoutManager genreLayoutManager;
     private FlexboxLayoutManager gamesLayoutManager;
+    private ActivityResultLauncher<String> filePickerLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.set_profile_page);
+
+        filePickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    profile_picture.setImageURI(uri);
+                }
+            });
 
         initializeViews();
         setClickListeners();
@@ -71,6 +83,7 @@ public class SetProfileActivity extends AppCompatActivity {
         continue_btn = findViewById(R.id.setProfile_continue_btn);
         chooseFile_btn = findViewById(R.id.setProfile_choosefile_btn);
         setProfile_back_btn = findViewById(R.id.setProfile_back_btn);
+        profile_picture = findViewById(R.id.profilpicture_imageView);
         genreRecyclerView = findViewById(R.id.genre_tags_recyclerview);
         gamesRecyclerView = findViewById(R.id.game_tags_recyclerview);
         genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
@@ -81,12 +94,12 @@ public class SetProfileActivity extends AppCompatActivity {
         continue_btn.setOnClickListener(v -> openRecommendationsView());
         setProfile_back_btn.setOnClickListener(v -> openRegisterView());
         chooseFile_btn.setOnClickListener(v -> {
-
+            filePickerLauncher.launch("image/*");
         });
     }
 
     private void openRecommendationsView(){
-        Intent intent = new Intent(this, GameDetailedActivity.class);
+        Intent intent = new Intent(this, RecommendationActivity.class);
         startActivity(intent);
     }
     private void openRegisterView(){
