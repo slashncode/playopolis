@@ -10,8 +10,6 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -281,92 +279,5 @@ public class DirectusRequests {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-}
-
-class DirectusUser {
-    private String email;
-    private String username;
-    private String password;
-    private String avatar;
-    private ArrayList<String> genres;
-    private String description;
-    private ArrayList<Integer> favorite_games;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public Object getGenres() {
-        return genres;
-    }
-
-    public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ArrayList<Integer> getFavorite_games() {
-        return favorite_games;
-    }
-
-    public void setFavorite_games(ArrayList<Integer> favorite_games) {
-        this.favorite_games = favorite_games;
-    }
-}
-
-class UserGames {
-    private Integer users_id;
-    private Integer games_id;
-
-    public Integer getUsers_id() {
-        return users_id;
-    }
-
-    public void setUsers_id(Integer users_id) {
-        this.users_id = users_id;
-    }
-
-    public Integer getGames_id() {
-        return games_id;
-    }
-
-    public void setGames_id(Integer games_id) {
-        this.games_id = games_id;
     }
 }
