@@ -49,19 +49,34 @@
             android:id="@+id/searchResult1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/system_neutral1_100"
+            android:text="Button"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/searchResult2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/system_neutral1_100"
+            android:text="Button"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/searchResult3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/system_neutral1_100"
+            android:text="Button"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
