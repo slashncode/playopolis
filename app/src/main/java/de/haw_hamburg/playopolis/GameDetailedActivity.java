@@ -3,8 +3,8 @@ package de.haw_hamburg.playopolis;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -42,10 +42,7 @@ public class GameDetailedActivity extends AppCompatActivity {
         home_btn.setOnClickListener(v -> openRecommendationActivity());
         search_btn.setOnClickListener(v -> openSearchActivity());
         profile_btn.setOnClickListener(v -> openProfileActivity());
-        //TODO: set onClick Listener for favorite Button
-        favorite.setOnClickListener(v -> {
-
-        });
+        favorite.setOnClickListener(v -> toggleFavoriteImage());
     }
 
     private void openRecommendationActivity(){
@@ -59,5 +56,17 @@ public class GameDetailedActivity extends AppCompatActivity {
     private void openProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+    private void toggleFavoriteImage() {
+        // Get the current drawable of the favorite ImageView
+        Drawable currentDrawable = favorite.getDrawable();
+
+        // Determine the new image resource based on the current resource
+        int newImageResource = (currentDrawable.getConstantState().equals(getResources().getDrawable(R.drawable.star_off).getConstantState()))
+                ? R.drawable.star_on
+                : R.drawable.star_off;
+
+        // Set the new image resource to the favorite ImageView
+        favorite.setImageResource(newImageResource);
     }
 }
