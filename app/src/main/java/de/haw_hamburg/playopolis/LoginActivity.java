@@ -2,7 +2,6 @@ package de.haw_hamburg.playopolis;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText email;
+    private EditText username;
     private EditText password;
     private Button login_btn;
     private ImageView backToStartImageView;
@@ -28,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         backToStartImageView.setOnClickListener(v -> openMainActivity());
 
         login_btn.setOnClickListener(v -> {
-                String inputMail = email.getText().toString();
+                String inputMail = username.getText().toString();
                 String inputPassword = password.getText().toString();
 
                 if (inputMail.isEmpty() || inputPassword.isEmpty()) {
@@ -49,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void initializeViews(){
-        email = findViewById(R.id.edit_entermail);
+        username = findViewById(R.id.edit_username2);
         password = findViewById(R.id.edit_enterpassword);
         login_btn = findViewById(R.id.login_btn);
         backToStartImageView = findViewById(R.id.register_back_btn);

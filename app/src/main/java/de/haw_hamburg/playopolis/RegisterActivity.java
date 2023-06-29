@@ -2,7 +2,6 @@ package de.haw_hamburg.playopolis;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,8 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        email = findViewById(R.id.edit_entermail);
-        username = findViewById(R.id.editTextText);
+        email = findViewById(R.id.edit_email);
+        username = findViewById(R.id.edit_username);
         password = findViewById(R.id.edit_enterpassword);
         password_repeat = findViewById(R.id.editTextRepeatPassword);
     }
