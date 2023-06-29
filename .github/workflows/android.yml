@@ -24,3 +24,12 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+          artifacts: app/build/outputs/apk/release/app-release-unsigned.apk
+          token: ${{ secrets.MY_PAT }}
+          tag: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
+          draft: false
+          prerelease: false

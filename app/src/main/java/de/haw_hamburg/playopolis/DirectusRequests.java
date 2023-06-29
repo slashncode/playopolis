@@ -10,8 +10,6 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,17 +22,38 @@ import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class DirectusRequests {
-    /*
+
+
     // main for testing the different request functions / examples for how to use them
-    public static void main(String[] args) {
+    //public static void main(String[] args) {
         //DirectusRequests.createUser("soeren.poppe@gmx.de", "spoppe", "password", new ArrayList<>(List.of("Bullethell")), "/Users/spoppe/Pictures/soeren.png", "test");
         //DirectusRequests.patchRequest(1, "email", "neuemail@gmx.de");
         //DirectusRequests.setFavoriteGame(1, 1);
         //DirectusRequests.setFavoriteGame(2, 1);
+        //DirectusRequests.patchRequest(1, "genres", "");
+    //}
 
-    }
-    */
-    public static void createUser(String email, String username, String password, ArrayList<String> genres, String imagePath, String description) {
+    /**
+     *
+     * This function only registers a new user with his email, username and password.
+     * The avatar, game genres, favorite games and description have to be patched in the next view.
+     * Avatars and favorite games are O2M- / M2M-relationships and can only be added after the user
+     * is registered and has an ID in the database.
+     *
+     * Adding an avatar looks like this:
+     * String imageId = String.valueOf(getRequest("https://directus-se.up.railway.app/files?filter[filename_download][_eq]=" + createImage(imagePath) + "&fields[]=id").get("data").get(0).get("id"));
+     * // Strip double quotes of image ID
+     * String newImageId = imageId.substring(1, imageId.length() - 1);
+     * DirectusRequests.patchRequest(userId, "avatar", newImageId);
+     *
+     * Adding the favorite games looks like this:
+     * DirectusRequests.setFavoriteGame(gameId, userId);
+     *
+     * @param email
+     * @param username
+     * @param password
+     */
+    public static void registerUser(String email, String username, String password) {
         String apiUrl = "https://directus-se.up.railway.app/items/users";
 
         try {
@@ -49,20 +68,6 @@ public class DirectusRequests {
             requestObject.setEmail(email);
             requestObject.setUsername(username);
             requestObject.setPassword(password);
-            requestObject.setGenres(genres);
-            // Create image and send a GET Request to get the image ID
-            String imageId = String.valueOf(getRequest("https://directus-se.up.railway.app/files?filter[filename_download][_eq]=" + createImage(imagePath) + "&fields[]=id").get("data").get(0).get("id"));
-            // Strip double quotes of image ID
-            String newImageId = imageId.substring(1, imageId.length() - 1);
-            requestObject.setAvatar(newImageId);
-            // Use this for loop after user creation. User ID needed
-            /*
-            for (Integer favoriteGame :
-                    favoriteGames) {
-                setFavoriteGame(favoriteGame, userId);
-            }
-            */
-            requestObject.setDescription(description);
 
             // Serialize the object to JSON
             ObjectMapper userObjectMapper = new ObjectMapper();
@@ -250,91 +255,29 @@ public class DirectusRequests {
             e.printStackTrace();
         }
     }
-}
 
-class DirectusUser {
-    private String email;
-    private String username;
-    private String password;
-    private String avatar;
-    private ArrayList<String> genres;
-    private String description;
-    private ArrayList<Integer> favorite_games;
+    public static void patchRequest(Integer userId, JsonNode jsonNode) {
+        String PATCH_URL = "https://directus-se.up.railway.app/items/users/" + userId.toString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // Create an HttpClient instance
+            HttpClient httpClient = HttpClients.createDefault();
 
-    public String getEmail() {
-        return email;
-    }
+            // Create a PATCH request with the URL
+            HttpPatch httpPatch = new HttpPatch(PATCH_URL);
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+            // Set the JSON payload for the request
+            String jsonPayload = jsonNode.toString();
+            StringEntity entity = new StringEntity(jsonPayload, ContentType.APPLICATION_JSON);
+            httpPatch.setEntity(entity);
 
-    public String getUsername() {
-        return username;
-    }
+            // Execute the request
+            HttpResponse response = httpClient.execute(httpPatch);
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public Object getGenres() {
-        return genres;
-    }
-
-    public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ArrayList<Integer> getFavorite_games() {
-        return favorite_games;
-    }
-
-    public void setFavorite_games(ArrayList<Integer> favorite_games) {
-        this.favorite_games = favorite_games;
-    }
-}
-
-class UserGames {
-    private Integer users_id;
-    private Integer games_id;
-
-    public Integer getUsers_id() {
-        return users_id;
-    }
-
-    public void setUsers_id(Integer users_id) {
-        this.users_id = users_id;
-    }
-
-    public Integer getGames_id() {
-        return games_id;
-    }
-
-    public void setGames_id(Integer games_id) {
-        this.games_id = games_id;
+            // Close the HttpClient
+            //httpClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
