@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (!inputPassword.equals(inputRepPassword)) {
                 Toast.makeText(RegisterActivity.this, "Passwords are not the same. Try again.", Toast.LENGTH_SHORT).show();
             } else {
-                //DirectusRequests.registerUser(inputMail, inputUsername, inputPassword, inputRepPassword);
+                DirectusRequests.registerUser(inputMail, inputUsername, inputPassword);
                 openSetProfileActivity();
             }
         });

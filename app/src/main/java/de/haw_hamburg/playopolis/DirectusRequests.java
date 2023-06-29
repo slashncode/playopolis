@@ -1,5 +1,7 @@
 package de.haw_hamburg.playopolis;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,50 +55,68 @@ public class DirectusRequests {
      * @param username
      * @param password
      */
+
     public static void registerUser(String email, String username, String password) {
-        String apiUrl = "https://directus-se.up.railway.app/items/users";
+        new RegisterUserTask().execute(email, username, password);
+    }
 
-        try {
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
+    private static class RegisterUserTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String email = params[0];
+            String username = params[1];
+            String password = params[2];
 
-            // Create the object to be sent in the request
-            DirectusUser requestObject = new DirectusUser();
-            requestObject.setEmail(email);
-            requestObject.setUsername(username);
-            requestObject.setPassword(password);
+            String apiUrl = "https://directus-se.up.railway.app/items/users";
+            try {
+                URL url = new URL(apiUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
 
-            // Serialize the object to JSON
-            ObjectMapper userObjectMapper = new ObjectMapper();
-            String jsonRequest = userObjectMapper.writeValueAsString(requestObject);
+                // Create the object to be sent in the request
+                DirectusUser requestObject = new DirectusUser();
+                requestObject.setEmail(email);
+                requestObject.setUsername(username);
+                requestObject.setPassword(password);
 
-            System.out.println(jsonRequest);
+                // Serialize the object to JSON
+                ObjectMapper userObjectMapper = new ObjectMapper();
+                String jsonRequest = userObjectMapper.writeValueAsString(requestObject);
 
-            // Write the JSON request to the connection's output stream
-            OutputStream outputStream = connection.getOutputStream();
-            outputStream.write(jsonRequest.getBytes());
-            outputStream.flush();
-            outputStream.close();
+                // Write the JSON request to the connection's output stream
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(jsonRequest.getBytes());
+                outputStream.flush();
+                outputStream.close();
 
-            // Get the response
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
+                // Get the response
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                // Close the connection
+                connection.disconnect();
+
+                return response.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
             }
-            reader.close();
+        }
 
-            // Process the response
-            System.out.println(response.toString());
-
-            // Close the connection
-            connection.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                System.out.println(result);
+            } else {
+                // Handle the error case
+            }
         }
     }
 
