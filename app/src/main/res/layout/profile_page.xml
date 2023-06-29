@@ -39,7 +39,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="64dp"
                     android:gravity="center_horizontal"
-                    android:text="@string/profile_username"
+                    android:text="spoppe"
                     android:textSize="40sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
                         android:scaleType="centerCrop"
                         tools:layout_editor_absoluteX="112dp"
                         tools:layout_editor_absoluteY="284dp"
-                        tools:srcCompat="@drawable/spoppe_round" />
+                        android:src="@drawable/spoppe_round" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <androidx.appcompat.widget.AppCompatButton

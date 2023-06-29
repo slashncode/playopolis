@@ -15,10 +15,9 @@
         android:layout_height="75dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:src="@drawable/profil"
+        android:src="@drawable/spoppe_round"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/spoppe_round" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/profilUserName"
@@ -26,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="188dp"
-        android:text="@string/username"
+        android:text="spoppe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/profilImageButton"

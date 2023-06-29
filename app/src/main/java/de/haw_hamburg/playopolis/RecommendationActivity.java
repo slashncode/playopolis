@@ -45,7 +45,9 @@ public class RecommendationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String loginUsername = intent.getStringExtra("username");
-        username.setText(loginUsername);
+        if (loginUsername != null) {
+            username.setText(loginUsername);
+        }
     }
 
     private void openProfileActivity() {

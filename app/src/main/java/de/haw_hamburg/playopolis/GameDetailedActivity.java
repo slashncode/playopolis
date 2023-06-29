@@ -26,7 +26,7 @@ public class GameDetailedActivity extends AppCompatActivity {
         initializeViews();
         setClickListeners();
 
-        Glide.with(this).load("https://directus-se.up.railway.app/assets/1fc08ec4-cb1b-4475-ba4a-b7485dfc4ee8").into(gamePreviewImage);
+        Glide.with(this).load("https://directus-se.up.railway.app/assets/9c6ad53f-36f5-4a88-acf7-d3966cbc2bca").into(gamePreviewImage);
     }
 
     private void initializeViews(){
