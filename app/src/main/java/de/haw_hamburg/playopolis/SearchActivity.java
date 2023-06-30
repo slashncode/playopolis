@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        if (query.equalsIgnoreCase("god")) {
+        if (query.contains("god")) {
             showSearchResults();
         } else {
             hideSearchResults();
