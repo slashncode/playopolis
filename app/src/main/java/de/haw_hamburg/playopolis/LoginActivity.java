@@ -1,5 +1,7 @@
 package de.haw_hamburg.playopolis;
 
+import static de.haw_hamburg.playopolis.DirectusRequests.executor;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
@@ -33,8 +37,18 @@ public class LoginActivity extends AppCompatActivity {
                 if (inputMail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
                 } else {
+                    AppPreferences.getInstance(LoginActivity.this).setUsername(inputMail);
+                    String apiUrlPath = "https://directus-se.up.railway.app/items/users?filter[username][_eq]=" + inputMail;
+                    DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, new DirectusRequests.GetRequestTask.OnRequestCompleteListener() {
+                        @Override
+                        public void onRequestComplete(JsonNode result) {
+                            AppPreferences.getInstance(LoginActivity.this).setUserId(result);
+                        }
+                    });
+                    getRequestTask.executeInBackground(apiUrlPath);
+
+
                     Intent intent = new Intent(LoginActivity.this, RecommendationActivity.class);
-                    intent.putExtra("username", inputMail);
                     startActivity(intent);
                 }
         });
@@ -53,5 +67,4 @@ public class LoginActivity extends AppCompatActivity {
         login_btn = findViewById(R.id.login_btn);
         backToStartImageView = findViewById(R.id.register_back_btn);
     }
-
 }

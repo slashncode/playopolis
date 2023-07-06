@@ -1,7 +1,14 @@
 package de.haw_hamburg.playopolis;
 
+import static java.io.File.createTempFile;
+
+import static de.haw_hamburg.playopolis.DirectusRequests.executor;
+
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,9 +20,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +37,7 @@ import java.util.List;
 import de.haw_hamburg.playopolis.databinding.SetProfilePageBinding;
 import de.haw_hamburg.playopolis.ui.createProfile.SetProfileGenresAdapter;
 
-public class SetProfileActivity extends AppCompatActivity {
+public class SetProfileActivity extends AppCompatActivity implements DirectusRequests.GetRequestTask.OnRequestCompleteListener {
     private SetProfilePageBinding binding;
     private Button chooseFile_btn;
     private Button continue_btn;
@@ -34,6 +48,7 @@ public class SetProfileActivity extends AppCompatActivity {
     private FlexboxLayoutManager genreLayoutManager;
     private FlexboxLayoutManager gamesLayoutManager;
     private ActivityResultLauncher<String> filePickerLauncher;
+    private String filePath;
 
 
     @Override
@@ -45,6 +60,7 @@ public class SetProfileActivity extends AppCompatActivity {
             uri -> {
                 if (uri != null) {
                     profile_picture.setImageURI(uri);
+                    filePath = getFilePathFromUri(uri);
                 }
             });
 
@@ -99,11 +115,90 @@ public class SetProfileActivity extends AppCompatActivity {
     }
 
     private void openRecommendationsView(){
+        // Set genres
+        SetProfileGenresAdapter genresAdapter = binding.getGenresAdapter();
+        List<String> enabledTags = genresAdapter.getEnabledTags();
+        String genreJsonAsString = "{ \"genres\" : " + enabledTags + "}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode genreJson = objectMapper.readTree(genreJsonAsString);
+            DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), genreJson);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Set image
+        DirectusRequests.createImage(filePath, this, imgName -> {
+            String fileName = AppPreferences.getInstance(this).getImageName();
+            String apiUrlPath = "https://directus-se.up.railway.app/files?filter[filename_download][_icontains]=" + fileName;
+            DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> {
+                String imageId = String.valueOf(result.get("data").get(0).get("id"));
+                String imageJsonAsString = "{ \"avatar\" : " + imageId + "}";
+                AppPreferences.getInstance(this).setImageId(imageId);
+                ObjectMapper imageObjectMapper = new ObjectMapper();
+                try {
+                    JsonNode imageJson = imageObjectMapper.readTree(imageJsonAsString);
+                    DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), imageJson);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            getRequestTask.executeInBackground(apiUrlPath);
+        });
+
         Intent intent = new Intent(this, RecommendationActivity.class);
         startActivity(intent);
     }
     private void openRegisterView(){
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestComplete(JsonNode result) {
+        AppPreferences.getInstance(SetProfileActivity.this).setUserId(result);
+        System.out.println(result);
+    }
+
+    private String getFilePathFromUri(Uri uri) {
+        String filePath = null;
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            filePath = cursor.getString(columnIndex);
+            cursor.close();
+        }
+
+        if (filePath == null) {
+            try {
+                File tempFile = createTempFileFromUri(uri);
+                if (tempFile != null) {
+                    filePath = tempFile.getAbsolutePath();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return filePath;
+    }
+
+    private File createTempFileFromUri(Uri uri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        if (inputStream != null) {
+            File tempFile = createTempFile("temp_", ".jpg");
+            FileOutputStream outputStream = new FileOutputStream(tempFile);
+            byte[] buffer = new byte[4 * 1024]; // 4 KB buffer
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+            return tempFile;
+        }
+        return null;
     }
 }

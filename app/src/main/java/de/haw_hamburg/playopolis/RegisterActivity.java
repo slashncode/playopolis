@@ -1,5 +1,7 @@
 package de.haw_hamburg.playopolis;
 
+import static de.haw_hamburg.playopolis.DirectusRequests.executor;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -42,7 +46,14 @@ public class RegisterActivity extends AppCompatActivity {
             if (!inputPassword.equals(inputRepPassword)) {
                 Toast.makeText(RegisterActivity.this, "Passwords are not the same. Try again.", Toast.LENGTH_SHORT).show();
             } else {
-                DirectusRequests.registerUser(inputMail, inputUsername, inputPassword);
+                AppPreferences.getInstance(RegisterActivity.this).setUsername(inputUsername);
+
+                DirectusRequests.registerUser(inputMail, inputUsername, inputPassword, r -> {
+                    String loginUsername = AppPreferences.getInstance(this).getUsername();
+                    String apiUrlPath = "https://directus-se.up.railway.app/items/users?filter[username][_eq]=" + loginUsername;
+                    DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> AppPreferences.getInstance(this).setUserId(result));
+                    getRequestTask.executeInBackground(apiUrlPath);
+                });
                 openSetProfileActivity();
             }
         });

@@ -28,6 +28,7 @@ public class RecommendationActivity extends AppCompatActivity {
     //NAV BAR
     private ImageView search_btn;
     private ImageView profile_btn;
+    private ImageView profile_img;
 
 
     @Override
@@ -43,8 +44,11 @@ public class RecommendationActivity extends AppCompatActivity {
         Glide.with(this).load("https://directus-se.up.railway.app/assets/4b9a81c1-1c04-4215-90f6-9552bb73eb7a").centerCrop().into(game3);
         Glide.with(this).load("https://directus-se.up.railway.app/assets/9c6ad53f-36f5-4a88-acf7-d3966cbc2bca").centerCrop().into(game4);
 
-        Intent intent = getIntent();
-        String loginUsername = intent.getStringExtra("username");
+        String imageId = AppPreferences.getInstance(this).getImageId();
+        String newImageId = imageId.substring(1, imageId.length() - 1);
+        Glide.with(this).load("https://directus-se.up.railway.app/assets/" + newImageId).centerCrop().into(profile_img);
+
+        String loginUsername = AppPreferences.getInstance(this).getUsername();
         if (loginUsername != null) {
             username.setText(loginUsername);
         }
@@ -74,6 +78,7 @@ public class RecommendationActivity extends AppCompatActivity {
         game2 = findViewById(R.id.game2);
         game3 = findViewById(R.id.game3);
         game4 = findViewById(R.id.game4);
+        profile_img = findViewById(R.id.profilImageButton);
     }
     private void setClickListeners(){
         search_btn.setOnClickListener(v -> openSearchActivity());

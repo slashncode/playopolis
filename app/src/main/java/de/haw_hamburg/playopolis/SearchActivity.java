@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -22,9 +25,11 @@ public class SearchActivity extends AppCompatActivity {
     private Button searchResult1;
     private Button searchResult2;
     private Button searchResult3;
+    private TextView username;
 
     private Handler searchHandler = new Handler();
     private Runnable searchRunnable;
+    private ImageView profile_picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,15 @@ public class SearchActivity extends AppCompatActivity {
         initializeViews();
         setClickListeners();
         setupSearchView();
+
+        String loginUsername = AppPreferences.getInstance(this).getUsername();
+        if (loginUsername != null) {
+            username.setText(loginUsername);
+        }
+
+        String imageId = AppPreferences.getInstance(this).getImageId();
+        String newImageId = imageId.substring(1, imageId.length() - 1);
+        Glide.with(this).load("https://directus-se.up.railway.app/assets/" + newImageId).centerCrop().into(profile_picture);
     }
 
     private void initializeViews() {
@@ -44,6 +58,8 @@ public class SearchActivity extends AppCompatActivity {
         searchResult1 = findViewById(R.id.searchResult1);
         searchResult2 = findViewById(R.id.searchResult2);
         searchResult3 = findViewById(R.id.searchResult3);
+        username = findViewById(R.id.profilUserName);
+        profile_picture = findViewById(R.id.profilImageButton);
     }
 
     private void setClickListeners() {
