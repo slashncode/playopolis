@@ -9,10 +9,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,7 +29,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,6 +47,7 @@ public class SetProfileActivity extends AppCompatActivity implements DirectusReq
     private FlexboxLayoutManager gamesLayoutManager;
     private ActivityResultLauncher<String> filePickerLauncher;
     private String filePath;
+    private EditText descriptionField;
 
 
     @Override
@@ -102,6 +101,7 @@ public class SetProfileActivity extends AppCompatActivity implements DirectusReq
         profile_picture = findViewById(R.id.profilpicture_imageView);
         genreRecyclerView = findViewById(R.id.genre_tags_recyclerview);
         gamesRecyclerView = findViewById(R.id.game_tags_recyclerview);
+        descriptionField = findViewById(R.id.description_editText);
         genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
         gamesLayoutManager = new FlexboxLayoutManager(getApplicationContext());
     }
@@ -119,10 +119,13 @@ public class SetProfileActivity extends AppCompatActivity implements DirectusReq
         SetProfileGenresAdapter genresAdapter = binding.getGenresAdapter();
         List<String> enabledTags = genresAdapter.getEnabledTags();
         String genreJsonAsString = "{ \"genres\" : " + enabledTags + "}";
+        String[] genresArray = enabledTags.toArray(new String[0]);
+        AppPreferences.getInstance(this).setGenres(genresArray);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode genreJson = objectMapper.readTree(genreJsonAsString);
             DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), genreJson);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -146,6 +149,17 @@ public class SetProfileActivity extends AppCompatActivity implements DirectusReq
             getRequestTask.executeInBackground(apiUrlPath);
         });
 
+        // set description
+        String descriptionJsonAsString = "{ \"description\" : \"" + String.valueOf(descriptionField.getText()) + "\"}";
+        ObjectMapper descriptionObjectMapper = new ObjectMapper();
+        try {
+            JsonNode descriptionJson = descriptionObjectMapper.readTree(descriptionJsonAsString);
+            DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), descriptionJson);
+            AppPreferences.getInstance(this).setDescription(String.valueOf(descriptionField.getText()));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         Intent intent = new Intent(this, RecommendationActivity.class);
         startActivity(intent);
     }
@@ -157,7 +171,6 @@ public class SetProfileActivity extends AppCompatActivity implements DirectusReq
     @Override
     public void onRequestComplete(JsonNode result) {
         AppPreferences.getInstance(SetProfileActivity.this).setUserId(result);
-        System.out.println(result);
     }
 
     private String getFilePathFromUri(Uri uri) {

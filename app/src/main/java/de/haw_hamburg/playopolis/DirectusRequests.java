@@ -1,7 +1,6 @@
 package de.haw_hamburg.playopolis;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -147,8 +146,6 @@ public class DirectusRequests {
                     outputStream.flush();
                     outputStream.close();
 
-                    System.out.println(gameId + " " + userId);
-
                     // Get the response
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     StringBuilder response = new StringBuilder();
@@ -157,9 +154,6 @@ public class DirectusRequests {
                         response.append(line);
                     }
                     reader.close();
-
-                    // Processthe response
-                    System.out.println(response.toString());
 
                     // Close the connection
                     connection.disconnect();
@@ -329,9 +323,7 @@ public class DirectusRequests {
 
                     // Execute the request
                     HttpResponse response = httpClient.execute(httpPatch);
-
-                    System.out.println(response);
-
+                    
                     // Close the HttpClient
                     //httpClient.close();
                 } catch (IOException e) {

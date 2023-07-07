@@ -95,4 +95,12 @@ public class SetProfileGenresAdapter extends RecyclerView.Adapter<SetProfileGenr
 
         return enabledTags;
     }
+
+    public void enableTags(List<String> enabledTags) {
+        for (ProfileGenre genre : dataModelList) {
+            if (enabledTags.contains(genre.getTagName())) {
+                genre.toggleEnabled();
+            }
+        }
+    }
 }

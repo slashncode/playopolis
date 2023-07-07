@@ -2,19 +2,16 @@ package de.haw_hamburg.playopolis;
 
 import android.content.Intent;
 
-import android.media.Image;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
+import java.util.Arrays;
 
 public class RecommendationActivity extends AppCompatActivity {
 

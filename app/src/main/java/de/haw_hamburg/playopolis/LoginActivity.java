@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
@@ -51,15 +54,24 @@ public class LoginActivity extends AppCompatActivity {
                                         directusPassword = directusPassword.substring(1, directusPassword.length() - 1);
                                         if (inputMail.equals(directusUsername) && inputPassword.equals(directusPassword)) {
                                             String imageId = String.valueOf(result.get("data").get(0).get("avatar"));
+                                            String description = String.valueOf(result.get("data").get(0).get("description"));
                                             imageId.substring(1, imageId.length() - 1);
                                             AppPreferences.getInstance(LoginActivity.this).setUserId(result);
                                             AppPreferences.getInstance(LoginActivity.this).setUsername(directusUsername);
                                             AppPreferences.getInstance(LoginActivity.this).setImageId(imageId);
+                                            AppPreferences.getInstance(LoginActivity.this).setDescription(description);
+                                            // get existing genres and set them in the sharedPreferences
+                                            List<String> genresList = new ArrayList<>();
+                                            for (JsonNode genreNode : result.get("data").get(0).get("genres")) {
+                                                genresList.add(genreNode.asText());
+                                            }
+                                            String[] genresArray = genresList.toArray(new String[0]);
+                                            AppPreferences.getInstance(LoginActivity.this).setGenres(genresArray);
+
+                                            // go to recommendation activity
                                             Intent intent = new Intent(LoginActivity.this, RecommendationActivity.class);
                                             startActivity(intent);
                                         } else {
-                                            System.out.println(directusPassword + " " + inputPassword);
-                                            System.out.println(directusUsername + " " + inputMail);
                                             Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FlexboxLayoutManager gamesLayoutManager;
     private ActivityResultLauncher<String> filePickerLauncher;
     private String filePath;
+    private EditText descriptionField;
 
 
     @Override
@@ -86,6 +89,13 @@ public class ProfileActivity extends AppCompatActivity {
         populateGenres();
         populateGames();
 
+        String description = AppPreferences.getInstance(this).getDescription();
+        String strippedDescription = description.replaceAll("\"", "");
+        if (strippedDescription == "null" || strippedDescription == null) {
+            strippedDescription = "";
+        }
+        descriptionField.setText(strippedDescription);
+
         setContentView(binding.getRoot());
     }
 
@@ -96,6 +106,18 @@ public class ProfileActivity extends AppCompatActivity {
 
         SetProfileGenresAdapter genresAdapter = new SetProfileGenresAdapter(color, dataModelList);
         binding.setGenresAdapter(genresAdapter);
+
+        // Load saved genres from SharedPreferences
+        List<String> genresList = Arrays.asList(AppPreferences.getInstance(this).getGenres());
+
+        List<String> strippedGenresList = new ArrayList<>();
+        for (String genre : genresList) {
+            String strippedGenre = genre.replaceAll("\"", "");
+            strippedGenresList.add(strippedGenre);
+        }
+
+        // Toggle enabled state for genres in the adapter
+        genresAdapter.enableTags(strippedGenresList);
     }
 
     private void populateGames() {
@@ -114,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
         save_btn = findViewById(R.id.profile_save_btn);
         profile_picture = findViewById(R.id.profilpicture2_imageView);
         username = findViewById(R.id.profile_username);
+        descriptionField = findViewById(R.id.profile_description_editText);
         genreRecyclerView = binding.profileGenreTagsRecyclerview;
         gamesRecyclerView = binding.profileGameTagsRecyclerview;
         genreLayoutManager = new FlexboxLayoutManager(getApplicationContext());
@@ -135,34 +158,53 @@ public class ProfileActivity extends AppCompatActivity {
         SetProfileGenresAdapter genresAdapter = binding.getGenresAdapter();
         List<String> enabledTags = genresAdapter.getEnabledTags();
         String genreJsonAsString = "{ \"genres\" : " + enabledTags + "}";
+        String[] genresArray = enabledTags.toArray(new String[0]);
+        AppPreferences.getInstance(this).setGenres(genresArray);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode genreJson = objectMapper.readTree(genreJsonAsString);
             DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), genreJson);
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        // set description
+        String descriptionJsonAsString = "{ \"description\" : \"" + String.valueOf(descriptionField.getText()) + "\"}";
+        ObjectMapper descriptionObjectMapper = new ObjectMapper();
+        try {
+            JsonNode descriptionJson = descriptionObjectMapper.readTree(descriptionJsonAsString);
+            DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), descriptionJson);
+            AppPreferences.getInstance(this).setDescription(String.valueOf(descriptionField.getText()));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
         // Set image
-        DirectusRequests.createImage(filePath, this, imgName -> {
-            String fileName = AppPreferences.getInstance(this).getImageName();
-            String apiUrlPath = "https://directus-se.up.railway.app/files?filter[filename_download][_icontains]=" + fileName;
-            DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> {
-                String imageId = String.valueOf(result.get("data").get(0).get("id"));
-                String imageJsonAsString = "{ \"avatar\" : " + imageId + "}";
-                AppPreferences.getInstance(this).setImageId(imageId);
-                ObjectMapper imageObjectMapper = new ObjectMapper();
-                try {
-                    JsonNode imageJson = imageObjectMapper.readTree(imageJsonAsString);
-                    DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), imageJson);
-                    Intent intent = new Intent(this, RecommendationActivity.class);
-                    startActivity(intent);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
+        if (filePath != null) {
+            DirectusRequests.createImage(filePath, this, imgName -> {
+                String fileName = AppPreferences.getInstance(this).getImageName();
+                String apiUrlPath = "https://directus-se.up.railway.app/files?filter[filename_download][_icontains]=" + fileName;
+                DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> {
+                    String imageId = String.valueOf(result.get("data").get(0).get("id"));
+                    String imageJsonAsString = "{ \"avatar\" : " + imageId + "}";
+                    AppPreferences.getInstance(this).setImageId(imageId);
+                    ObjectMapper imageObjectMapper = new ObjectMapper();
+                    try {
+                        JsonNode imageJson = imageObjectMapper.readTree(imageJsonAsString);
+                        DirectusRequests.executePatchRequest(AppPreferences.getInstance(this).getUserId(), imageJson);
+                        Intent intent = new Intent(this, RecommendationActivity.class);
+                        startActivity(intent);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                getRequestTask.executeInBackground(apiUrlPath);
             });
-            getRequestTask.executeInBackground(apiUrlPath);
-        });
+        } else {
+            Intent intent = new Intent(this, RecommendationActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void openRecommendationActivity(){

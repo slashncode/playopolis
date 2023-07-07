@@ -2,9 +2,12 @@ package de.haw_hamburg.playopolis;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AppPreferences {
     private static final String PREF_USERNAME = "username";
@@ -12,6 +15,9 @@ public class AppPreferences {
     private static final String PREF_IMAGENAME = "imagename";
     private static final String PREF_FILE_NAME = "app_preferences";
     private static final String PREF_IMAGE_ID = "123";
+    private static final String PREF_GENRES_KEY = "pref_genres";
+    private static final String PREF_DESCRIPTION = "pref_description";
+
 
     private SharedPreferences sharedPreferences;
     private static AppPreferences instance;
@@ -59,5 +65,21 @@ public class AppPreferences {
     public String getImageId() {
         return sharedPreferences.getString(PREF_IMAGE_ID, null);
     }
+    public void setGenres(String[] genres) {
+        Set<String> genresSet = new HashSet<>(Arrays.asList(genres));
 
+        sharedPreferences.edit().putStringSet(PREF_GENRES_KEY, genresSet).apply();
+    }
+
+    public String[] getGenres() {
+        Set<String> genresSet = sharedPreferences.getStringSet(PREF_GENRES_KEY, new HashSet<>());
+        return genresSet.toArray(new String[0]);
+    }
+    public void setDescription(String description) {
+        sharedPreferences.edit().putString(PREF_DESCRIPTION, description).apply();
+    }
+
+    public String getDescription() {
+        return sharedPreferences.getString(PREF_DESCRIPTION, null);
+    }
 }

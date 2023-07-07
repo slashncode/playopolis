@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText email;
