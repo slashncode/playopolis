@@ -37,19 +37,39 @@ public class LoginActivity extends AppCompatActivity {
                 if (inputMail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
                 } else {
-                    AppPreferences.getInstance(LoginActivity.this).setUsername(inputMail);
                     String apiUrlPath = "https://directus-se.up.railway.app/items/users?filter[username][_eq]=" + inputMail;
                     DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, new DirectusRequests.GetRequestTask.OnRequestCompleteListener() {
                         @Override
                         public void onRequestComplete(JsonNode result) {
-                            AppPreferences.getInstance(LoginActivity.this).setUserId(result);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (result.get("data").size() > 0) {
+                                        String directusUsername = String.valueOf(result.get("data").get(0).get("username"));
+                                        directusUsername = directusUsername.substring(1, directusUsername.length() - 1);
+                                        String directusPassword = String.valueOf(result.get("data").get(0).get("password"));
+                                        directusPassword = directusPassword.substring(1, directusPassword.length() - 1);
+                                        if (inputMail.equals(directusUsername) && inputPassword.equals(directusPassword)) {
+                                            String imageId = String.valueOf(result.get("data").get(0).get("avatar"));
+                                            imageId.substring(1, imageId.length() - 1);
+                                            AppPreferences.getInstance(LoginActivity.this).setUserId(result);
+                                            AppPreferences.getInstance(LoginActivity.this).setUsername(directusUsername);
+                                            AppPreferences.getInstance(LoginActivity.this).setImageId(imageId);
+                                            Intent intent = new Intent(LoginActivity.this, RecommendationActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            System.out.println(directusPassword + " " + inputPassword);
+                                            System.out.println(directusUsername + " " + inputMail);
+                                            Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "No data available", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                     });
                     getRequestTask.executeInBackground(apiUrlPath);
-
-
-                    Intent intent = new Intent(LoginActivity.this, RecommendationActivity.class);
-                    startActivity(intent);
                 }
         });
     }
