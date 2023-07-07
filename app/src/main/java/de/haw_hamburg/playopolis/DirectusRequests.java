@@ -323,7 +323,7 @@ public class DirectusRequests {
 
                     // Execute the request
                     HttpResponse response = httpClient.execute(httpPatch);
-                    
+
                     // Close the HttpClient
                     //httpClient.close();
                 } catch (IOException e) {

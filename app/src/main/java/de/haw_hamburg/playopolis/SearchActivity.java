@@ -1,8 +1,11 @@
 package de.haw_hamburg.playopolis;
 
+import static de.haw_hamburg.playopolis.DirectusRequests.executor;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +16,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -20,9 +30,6 @@ public class SearchActivity extends AppCompatActivity {
     private ImageView profile_btn;
     private SearchView searchView;
     private LinearLayout searchLinearLayout;
-    private Button searchResult1;
-    private Button searchResult2;
-    private Button searchResult3;
     private TextView username;
 
     private Handler searchHandler = new Handler();
@@ -53,9 +60,6 @@ public class SearchActivity extends AppCompatActivity {
         profile_btn = findViewById(R.id.profilButton);
         searchView = findViewById(R.id.searchView);
         searchLinearLayout = findViewById(R.id.search_linearlayout);
-        searchResult1 = findViewById(R.id.searchResult1);
-        searchResult2 = findViewById(R.id.searchResult2);
-        searchResult3 = findViewById(R.id.searchResult3);
         username = findViewById(R.id.profilUserName);
         profile_picture = findViewById(R.id.profilImageButton);
     }
@@ -63,7 +67,6 @@ public class SearchActivity extends AppCompatActivity {
     private void setClickListeners() {
         home_btn.setOnClickListener(v -> openRecommendationActivity());
         profile_btn.setOnClickListener(v -> openProfileActivity());
-        searchResult1.setOnClickListener(v -> openGameDetailedActivity());
     }
 
     private void openRecommendationActivity() {
@@ -76,8 +79,9 @@ public class SearchActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void openGameDetailedActivity() {
+    private void openGameDetailedActivity(String gameId) {
         Intent intent = new Intent(this, GameDetailedActivity.class);
+        intent.putExtra("gameId", gameId);
         startActivity(intent);
     }
 
@@ -107,22 +111,54 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        if (query.contains("god")) {
-            showSearchResults();
-        } else {
-            hideSearchResults();
+        String apiUrlPath = "https://directus-se.up.railway.app/items/games?filter[title][_icontains]=" + query;
+        DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> {
+            List<String> titles = new ArrayList<>();
+            List<String> ids = new ArrayList<>();
+            JsonNode dataNode = result.get("data");
+            if (dataNode.isArray()) {
+                for (JsonNode itemNode : dataNode) {
+                    JsonNode titleNode = itemNode.get("title");
+                    JsonNode idNode = itemNode.get("id");
+                    if (titleNode != null && idNode != null) {
+                        String title = titleNode.asText();
+                        String id = idNode.asText();
+                        titles.add(title);
+                        ids.add(id);
+                    }
+                }
+            }
+            runOnUiThread(() -> createSearchResultButtons(titles, ids));
+        });
+        getRequestTask.executeInBackground(apiUrlPath);
+    }
+
+    private void createSearchResultButtons(List<String> titles, List<String> ids) {
+        // Clear existing buttons
+        searchLinearLayout.removeAllViews();
+
+        // Create buttons dynamically
+        for (int i = 0; i < titles.size(); i++) {
+            String title = titles.get(i);
+            String gameId = ids.get(i);
+
+            Button button = new Button(this);
+            button.setText(title);
+            button.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+            button.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(0, 0, 0, 16);
+            button.setLayoutParams(layoutParams);
+
+            button.setOnClickListener(v -> {
+                openGameDetailedActivity(gameId);
+            });
+
+            searchLinearLayout.addView(button);
         }
-    }
-
-    private void showSearchResults() {
-        searchResult1.setVisibility(View.VISIBLE);
-        searchResult2.setVisibility(View.VISIBLE);
-        searchResult3.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSearchResults() {
-        searchResult1.setVisibility(View.GONE);
-        searchResult2.setVisibility(View.GONE);
-        searchResult3.setVisibility(View.GONE);
     }
 }

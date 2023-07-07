@@ -1,11 +1,14 @@
 package de.haw_hamburg.playopolis;
 
+import static de.haw_hamburg.playopolis.DirectusRequests.executor;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -17,6 +20,11 @@ public class GameDetailedActivity extends AppCompatActivity {
     private ImageView favorite;
     private ImageView backToHome;
     private ImageView gamePreviewImage;
+    private TextView gameTitle;
+    private TextView gameDev;
+    private TextView gameGenre;
+    private TextView gameDescription;
+    private TextView gameDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,43 @@ public class GameDetailedActivity extends AppCompatActivity {
         initializeViews();
         setClickListeners();
 
-        Glide.with(this).load("https://directus-se.up.railway.app/assets/9c6ad53f-36f5-4a88-acf7-d3966cbc2bca").into(gamePreviewImage);
+        String gameId = getIntent().getStringExtra("gameId");
+        System.out.println(gameId);
+
+        String apiUrlPath = "https://directus-se.up.railway.app/items/games/" + gameId;
+        DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> {
+            String title = String.valueOf(result.get("data").get("title")).replaceAll("\"", "");
+            String genre = String.valueOf(result.get("data").get("genre")).replaceAll("\"", "");
+            String publisher = String.valueOf(result.get("data").get("publisher")).replaceAll("\"", "");
+            String year_published = String.valueOf(result.get("data").get("year_published")).replaceAll("\"", "");
+            String description = String.valueOf(result.get("data").get("description")).replaceAll("\"", "");
+            String image_id = String.valueOf(result.get("data").get("hero_image")).replaceAll("\"", "");
+
+            runOnUiThread(() -> Glide.with(this).load("https://directus-se.up.railway.app/assets/" + image_id).into(gamePreviewImage));
+            runOnUiThread(() -> gameTitle.setText(title));
+            if (!description.equals("") && description != null && !description.equals("null")) {
+                runOnUiThread(() -> gameDescription.setText(description));
+            } else {
+                runOnUiThread(() -> gameDescription.setText(""));
+            }
+            if (!year_published.equals("") && year_published != null && !year_published.equals("null")) {
+                runOnUiThread(() -> gameDate.setText(year_published));
+            } else {
+                runOnUiThread(() -> gameDate.setText(""));
+            }
+            if (!publisher.equals("") && publisher != null && !publisher.equals("null")) {
+                runOnUiThread(() -> gameDev.setText(publisher));
+            } else {
+                runOnUiThread(() -> gameDev.setText(""));
+            }
+            if (!genre.equals("") && genre != null && !genre.equals("null")) {
+                runOnUiThread(() -> gameGenre.setText(genre));
+            } else {
+                runOnUiThread(() -> gameGenre.setText(""));
+            }
+
+        });
+        getRequestTask.executeInBackground(apiUrlPath);
     }
 
     private void initializeViews(){
@@ -36,6 +80,12 @@ public class GameDetailedActivity extends AppCompatActivity {
         profile_btn = findViewById(R.id.profilButton);
         backToHome = findViewById(R.id.detail_back_btn);
         gamePreviewImage = findViewById(R.id.gamePreviewImage);
+        gameTitle = findViewById(R.id.gameNameText);
+        gameGenre = findViewById(R.id.genreText);
+        gameDev = findViewById(R.id.devNameText);
+        gameDescription = findViewById(R.id.gameDescriptionText);
+        gameDate = findViewById(R.id.publishingDateText);
+
     }
     private void setClickListeners(){
         backToHome.setOnClickListener(v -> openRecommendationActivity());
