@@ -17,6 +17,7 @@ public class AppPreferences {
     private static final String PREF_IMAGE_ID = "123";
     private static final String PREF_GENRES_KEY = "pref_genres";
     private static final String PREF_DESCRIPTION = "pref_description";
+    private static final String PREF_FAV_GAMES = "pref_fav_games";
 
 
     private SharedPreferences sharedPreferences;
@@ -81,5 +82,15 @@ public class AppPreferences {
 
     public String getDescription() {
         return sharedPreferences.getString(PREF_DESCRIPTION, null);
+    }
+    public void setFavGames(String[] favGames) {
+        Set<String> favGamesSet = new HashSet<>(Arrays.asList(favGames));
+
+        sharedPreferences.edit().putStringSet(PREF_FAV_GAMES, favGamesSet).apply();
+    }
+
+    public String[] getFavGames() {
+        Set<String> favGamesSet = sharedPreferences.getStringSet(PREF_FAV_GAMES, new HashSet<>());
+        return favGamesSet.toArray(new String[0]);
     }
 }

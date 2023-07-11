@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (inputMail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please fill in all the fields!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String apiUrlPath = "https://directus-se.up.railway.app/items/users?filter[username][_eq]=" + inputMail;
+                    String apiUrlPath = "https://directus-se.up.railway.app/items/users?filter[username][_eq]=" + inputMail + "&fields=*,favorite_games.*";
                     DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, new DirectusRequests.GetRequestTask.OnRequestCompleteListener() {
                         @Override
                         public void onRequestComplete(JsonNode result) {
@@ -67,6 +67,22 @@ public class LoginActivity extends AppCompatActivity {
                                             }
                                             String[] genresArray = genresList.toArray(new String[0]);
                                             AppPreferences.getInstance(LoginActivity.this).setGenres(genresArray);
+
+                                            // get fav games
+                                            List<String> favGamesList = new ArrayList<>();
+                                            JsonNode favGames = result.get("data").get(0).get("favorite_games");
+                                            if (favGames != null && favGames.isArray()) {
+                                                for (JsonNode gameNode : favGames) {
+                                                    JsonNode gameIdNode = gameNode.get("games_id");
+                                                    if (gameIdNode != null && gameIdNode.isInt()) {
+                                                        String gameId = String.valueOf(gameIdNode);
+                                                        favGamesList.add(gameId);
+                                                    }
+                                                }
+                                            }
+                                            String[] favGamesArray = favGamesList.toArray(new String[0]);
+                                            AppPreferences.getInstance(LoginActivity.this).setFavGames(favGamesArray);
+
 
                                             // go to recommendation activity
                                             Intent intent = new Intent(LoginActivity.this, RecommendationActivity.class);
