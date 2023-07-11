@@ -1,24 +1,25 @@
 package de.haw_hamburg.playopolis;
 
-import android.content.Intent;
+import static de.haw_hamburg.playopolis.DirectusRequests.executor;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-
-import java.util.Arrays;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class RecommendationActivity extends AppCompatActivity {
 
-    private ImageView game1;
-    private ImageView game2;
-    private ImageView game3;
-    private ImageView game4;
+    private LinearLayout gamesLinear1;
+    private LinearLayout gamesLayout;
     private ImageView home;
     private SearchView search;
     private TextView username;
@@ -26,7 +27,6 @@ public class RecommendationActivity extends AppCompatActivity {
     private ImageView search_btn;
     private ImageView profile_btn;
     private ImageView profile_img;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,7 @@ public class RecommendationActivity extends AppCompatActivity {
         initializeViews();
         setClickListeners();
 
-        Glide.with(this).load("https://directus-se.up.railway.app/assets/1fc08ec4-cb1b-4475-ba4a-b7485dfc4ee8").centerCrop().into(game1);
-        Glide.with(this).load("https://directus-se.up.railway.app/assets/97127f04-aebc-4418-9874-1d845e9922a8").centerCrop().into(game2);
-        Glide.with(this).load("https://directus-se.up.railway.app/assets/4b9a81c1-1c04-4215-90f6-9552bb73eb7a").centerCrop().into(game3);
-        Glide.with(this).load("https://directus-se.up.railway.app/assets/9c6ad53f-36f5-4a88-acf7-d3966cbc2bca").centerCrop().into(game4);
+        loadGames();
 
         String imageId = AppPreferences.getInstance(this).getImageId();
         String newImageId = imageId.substring(1, imageId.length() - 1);
@@ -56,8 +53,9 @@ public class RecommendationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void openGame_detailedActivity() {
+    private void openGameDetailedActivity(String gameId) {
         Intent intent = new Intent(this, GameDetailedActivity.class);
+        intent.putExtra("gameId", gameId);
         startActivity(intent);
     }
 
@@ -65,31 +63,90 @@ public class RecommendationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
-    private void initializeViews(){
+
+    private void initializeViews() {
         search_btn = findViewById(R.id.searchButton);
         profile_btn = findViewById(R.id.profilButton);
         home = findViewById(R.id.homeButton);
-        search = (SearchView) findViewById(R.id.searchGame);
-        username = (TextView) findViewById(R.id.profilUserName);
-        game1 = findViewById(R.id.game1);
-        game2 = findViewById(R.id.game2);
-        game3 = findViewById(R.id.game3);
-        game4 = findViewById(R.id.game4);
+        search = findViewById(R.id.searchGame);
+        username = findViewById(R.id.profilUserName);
+        gamesLinear1 = findViewById(R.id.gamesLinear1);
+        gamesLayout = findViewById(R.id.gamesLayout);
         profile_img = findViewById(R.id.profilImageButton);
     }
-    private void setClickListeners(){
+
+    private void setClickListeners() {
         search_btn.setOnClickListener(v -> openSearchActivity());
         search.setOnClickListener(v -> openSearchActivity());
         profile_btn.setOnClickListener(v -> openProfileActivity());
         home.setOnClickListener(v -> recreate());
-        game1.setOnClickListener(v -> openGame_detailedActivity());
-        game2.setOnClickListener(v -> openGame_detailedActivity());
-        game3.setOnClickListener(v -> openGame_detailedActivity());
-        game4.setOnClickListener(v -> openGame_detailedActivity());
-
     }
 
+    private void loadGames() {
+        String apiUrlPath = "https://directus-se.up.railway.app/items/games/";
+        DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, result -> {
+            int count = 0;
+            LinearLayout currentLinearLayout = gamesLinear1;
 
+            for (JsonNode gameNode : result.get("data")) {
+                int gameId = gameNode.get("id").asInt();
+                String gameImageUrl = gameNode.get("hero_image").asText().replaceAll("\"", "");
+                gameImageUrl = "https://directus-se.up.railway.app/assets/" + gameImageUrl;
+                int marginRight = 0;
+                if (count == 0) {
+                    marginRight = 16;
+                } else {
+                    marginRight = 0;
+                }
+                ImageView gameImageView = createGameImageView(gameId, gameImageUrl, marginRight);
 
+                LinearLayout finalCurrentLinearLayout = currentLinearLayout;
+                runOnUiThread(() -> finalCurrentLinearLayout.addView(gameImageView));
+                count++;
+
+                if (count == 2) {
+                    // Create a new LinearLayout for the next pair of games
+                    currentLinearLayout = createNewLinearLayout();
+                    LinearLayout finalCurrentLinearLayout1 = currentLinearLayout;
+                    runOnUiThread(() -> gamesLayout.addView(finalCurrentLinearLayout1));
+                    count = 0;
+                }
+            }
+        });
+        getRequestTask.executeInBackground(apiUrlPath);
+    }
+
+    private ImageView createGameImageView(int gameId, String imageUrl, int marginRight) {
+        ImageView gameImageView = new ImageView(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                (int) convertDpToPx(this,145), (int) convertDpToPx(this,145)
+        );
+        layoutParams.setMargins(
+                0,
+                0,
+                (int) convertDpToPx(this,marginRight),
+                (int) convertDpToPx(this,16)
+        );
+        gameImageView.setLayoutParams(layoutParams);
+        runOnUiThread(() -> Glide.with(this).load(imageUrl).centerCrop().into(gameImageView));
+
+        runOnUiThread(() -> gameImageView.setOnClickListener(v -> openGameDetailedActivity(String.valueOf(gameId))));
+
+        return gameImageView;
+    }
+
+    private LinearLayout createNewLinearLayout() {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setGravity(Gravity.CENTER);
+        return linearLayout;
+    }
+
+    private float convertDpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
 }
-
