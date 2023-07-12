@@ -1,61 +1,75 @@
 package de.haw_hamburg.playopolis;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.junit.Assert;
 import org.junit.Test;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 
-import static org.mockito.Mockito.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/*
 public class DirectusRequestsTest {
 
     @Test
-    public void testRegisterUser() throws Exception {
-        String apiUrl = "https://directus-se.up.railway.app/items/users";
+    public void testGetRequestTaskForGames() {
+        // Api Path
+        String apiUrlPath = "https://directus-se.up.railway.app/items/games/";
 
-        // Mock the HttpURLConnectionWrapper class
-        HttpURLConnectionWrapper connectionWrapper = mock(HttpURLConnectionWrapper.class);
-        when(connectionWrapper.getOutputStream()).thenReturn(mock(OutputStream.class));
-        when(connectionWrapper.getInputStream()).thenReturn(mock(InputStream.class));
+        // Create a mock executor
+        Executor executor = Executors.newSingleThreadExecutor();
 
-        // Mock the URL class and its openConnection method
-        URL url = mock(URL.class);
-        when(url.openConnection()).thenReturn((URLConnection) connectionWrapper);
+        // Create a mock listener for capturing the result
+        DirectusRequests.GetRequestTask.OnRequestCompleteListener listener = new DirectusRequests.GetRequestTask.OnRequestCompleteListener() {
+            @Override
+            public void onRequestComplete(JsonNode result) {
+                // Assert the expected result
+                Assert.assertNotNull(result);
+                Assert.assertEquals("God of War Ragnarök", result.get("data").get(0).get("title").asText());
+            }
+        };
 
-        // Mock the ObjectMapper class
-        ObjectMapper objectMapper = mock(ObjectMapper.class);
-        when(objectMapper.writeValueAsString(any(DirectusUser.class))).thenReturn("jsonRequest");
+        // Create a GetRequestTask instance
+        DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, listener);
 
-        // Create an instance of the class under test
-        DirectusRequests myClass = new DirectusRequests();
+        // Execute the task with the sample JSON response
+        getRequestTask.executeInBackground(apiUrlPath);
 
-        // Invoke the method under test
-        myClass.registerUser("test@example.com", "testUser", "testPassword");
-
-        // Verify that the expected methods were called
-        verify(url).openConnection();
-        verify(connectionWrapper).setRequestMethod("POST");
-        verify(connectionWrapper).setRequestProperty("Content-Type", "application/json");
-        verify(connectionWrapper).setDoOutput(true);
-        verify(connectionWrapper.getOutputStream()).write(any(byte[].class));
-        verify(connectionWrapper.getOutputStream()).flush();
-        verify(connectionWrapper.getOutputStream()).close();
-        verify(connectionWrapper).getInputStream();
-        verify(connectionWrapper).disconnect();
+        // Wait for the task to complete (optional)
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    // Wrapper class for HttpURLConnection to enable mocking
-    public interface HttpURLConnectionWrapper {
-        void setRequestMethod(String method);
-        void setRequestProperty(String key, String value);
-        void setDoOutput(boolean doOutput);
-        OutputStream getOutputStream() throws IOException;
-        InputStream getInputStream() throws IOException;
-        void disconnect();
+    @Test
+    public void testGetRequestTaskForUsers() {
+        // Api Path
+        String apiUrlPath = "https://directus-se.up.railway.app/items/users/50";
+
+        // Create a mock executor
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        // Create a mock listener for capturing the result
+        DirectusRequests.GetRequestTask.OnRequestCompleteListener listener = new DirectusRequests.GetRequestTask.OnRequestCompleteListener() {
+            @Override
+            public void onRequestComplete(JsonNode result) {
+                // Assert the expected result
+                Assert.assertNotNull(result);
+                Assert.assertEquals("NoobMaster13372", result.get("data").get("username").asText());
+            }
+        };
+
+        // Create a GetRequestTask instance
+        DirectusRequests.GetRequestTask getRequestTask = new DirectusRequests.GetRequestTask(executor, listener);
+
+        // Execute the task with the sample JSON response
+        getRequestTask.executeInBackground(apiUrlPath);
+
+        // Wait for the task to complete (optional)
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
- */
