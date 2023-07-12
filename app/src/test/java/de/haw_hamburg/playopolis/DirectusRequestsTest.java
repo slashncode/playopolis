@@ -80,7 +80,7 @@ public class DirectusRequestsTest {
         try {
             Thread.sleep(5000);
             Assert.assertNotNull(apiResult[0]);
-            Assert.assertEquals("NoobMaster1337", apiResult[0].get("data").get("username").asText());
+            Assert.assertEquals("NoobMaster13372", apiResult[0].get("data").get("username").asText());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
