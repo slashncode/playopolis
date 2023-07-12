@@ -82,11 +82,13 @@
                     tools:srcCompat="@tools:sample/avatars" />
             </com.google.android.material.card.MaterialCardView>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/setProfile_choosefile_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:background="@drawable/button_bg"
                 android:text="@string/choose_file"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/round_cardView"
                 app:layout_constraintStart_toStartOf="@+id/round_cardView"
@@ -112,13 +114,11 @@
                 android:clipToPadding="false"
                 android:paddingTop="8dp"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintEnd_toEndOf="@+id/setProfile_textView"
                 app:layout_constraintHeight_max="110dp"
                 app:layout_constraintStart_toStartOf="@+id/setProfile_textView"
                 app:layout_constraintTop_toBottomOf="@+id/genres_textView"
-                app:spanCount="3"
                 tools:listitem="@layout/tag_view_item" />
 
             <TextView
@@ -139,13 +139,11 @@
                 android:clipToPadding="false"
                 android:paddingTop="8dp"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintEnd_toEndOf="@+id/genre_tags_recyclerview"
                 app:layout_constraintHeight_max="110dp"
                 app:layout_constraintStart_toStartOf="@+id/genre_tags_recyclerview"
                 app:layout_constraintTop_toBottomOf="@+id/playedGames_textView"
-                app:spanCount="3"
                 tools:listitem="@layout/tag_view_item" />
 
             <TextView
@@ -172,7 +170,7 @@
                 app:layout_constraintStart_toStartOf="@+id/game_tags_recyclerview"
                 app:layout_constraintTop_toBottomOf="@+id/description_textView" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/setProfile_continue_btn"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
@@ -180,6 +178,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/button_bg"
                 android:text="@string/nextpage"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

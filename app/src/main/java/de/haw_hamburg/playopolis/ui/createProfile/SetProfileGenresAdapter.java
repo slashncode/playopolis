@@ -83,4 +83,24 @@ public class SetProfileGenresAdapter extends RecyclerView.Adapter<SetProfileGenr
             }
         }
     }
+
+    public List<String> getEnabledTags() {
+        List<String> enabledTags = new ArrayList<>();
+
+        for (ProfileGenre genre : dataModelList) {
+            if (genre.getEnabled()) {
+                enabledTags.add("\"" + genre.getTagName() +"\"");
+            }
+        }
+
+        return enabledTags;
+    }
+
+    public void enableTags(List<String> enabledTags) {
+        for (ProfileGenre genre : dataModelList) {
+            if (enabledTags.contains(genre.getTagName())) {
+                genre.toggleEnabled();
+            }
+        }
+    }
 }

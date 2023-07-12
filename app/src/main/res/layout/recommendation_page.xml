@@ -15,9 +15,9 @@
         android:layout_height="75dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
+        android:src="@drawable/spoppe_round"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/profilUserName"
@@ -25,13 +25,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="188dp"
-        android:text="@string/username"
+        android:text="spoppe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/profilImageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
+        android:id="@+id/searchGame"
         android:layout_width="310dp"
         android:layout_height="43dp"
         android:layout_marginTop="56dp"
@@ -40,95 +41,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilUserName" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="180dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="180dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/BottomNavView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#FEFAFD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <ScrollView
+        android:id="@+id/gamesScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/navbar"
+        app:layout_constraintTop_toBottomOf="@+id/searchGame">
 
         <LinearLayout
-            android:id="@+id/linearLayoutNavBar"
+            android:id="@+id/gamesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/homeButton"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/gamesLinear1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/homeicon" />
-
-            <ImageView
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/suche" />
-
-            <ImageView
-                android:id="@+id/chatButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/konversation" />
-
-
-            <ImageView
-                android:id="@+id/profilButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-
-                app:srcCompat="@drawable/profil" />
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" />
 
         </LinearLayout>
+    </ScrollView>
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    <include
+        layout="@layout/navbar"
+        android:id="@+id/navbar"
+        tools:layout_editor_absoluteY="675dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
