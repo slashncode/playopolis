@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <i align="center">Find like-minded gamers! 🚀</i>
+  <i align="center">Find like-minded gamers! 🚀✨</i>
 </p>
 
 ## Introduction
